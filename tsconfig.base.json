@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    // ========== 基础配置 ==========
+    "module": "ESNext",
+    "baseUrl": ".",
+    // ========== 目标环境 ==========
+    "target": "ES2020",
+    "moduleResolution": "bundler",
+    "types": [],
+    "lib": ["ES2020", "DOM"],
+    // ========== 模块系统 ==========
+    "paths": {
+      // 路径映射，用于别名
+      "@/*": ["src/*"],
+      "@components/*": ["packages/components/src/*"],
+      "@utils/*": ["packages/utils/src/*"]
+    },
+    "verbatimModuleSyntax": true,
+    // ========== 互操作性 ==========
+    "esModuleInterop": true, // 启用 ES 模块互操作性
+    "allowSyntheticDefaultImports": true, // 允许从没有默认导出的模块进行默认导入
+    "resolveJsonModule": true, // 允许导入 JSON 模块
+    // ========== 输出配置 ==========
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    // ========== 额外严格选项 ==========
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    // ========== 严格类型检查 ==========
+    "strict": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+    "jsx": "preserve"
+  },
+  "compileOnSave": true,
+  "include": [
+    // 包含的文件/目录
+    "packages/**/src/**/*"
+  ],
+  "exclude": [
+    // 排除的文件/目录
+    "node_modules"
+    // "dist",
+    // "build",
+    // "**/*.test.ts",
+    // "**/*.spec.ts"
+  ]
+}

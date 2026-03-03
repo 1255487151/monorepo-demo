@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["src/**/*"],
+  "exclude": [
+    // 排除的文件/目录
+    "node_modules",
+    "dist"
+  ],
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "declarationDir": "./dist/types" // 声明文件输出目录
+  }
+}

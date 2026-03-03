@@ -1,4 +1,3 @@
-workspace:
-  packages:
-    # - "docs/*"
-    - "packages/*"
+packages:
+  # - "docs/*"
+  - "packages/*"

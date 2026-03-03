@@ -1,0 +1,40 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# 顶层配置
+root = true
+
+# 通用配置
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Markdown 文件
+[*.md]
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+# JSON 文件
+[*.json]
+indent_size = 2
+
+# YAML 文件
+[*.yaml]
+indent_size = 2
+[*.yml]
+indent_size = 2
+
+# Shell 脚本
+[*.sh]
+indent_size = 2
+
+# 忽略 package-lock.json 和 pnpm-lock.yaml
+[package-lock.json]
+indent_size = 2
+insert_final_newline = false
+[pnpm-lock.yaml]
+indent_size = 2
+insert_final_newline = false
