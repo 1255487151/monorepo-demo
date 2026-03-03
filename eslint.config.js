@@ -38,7 +38,7 @@ module.exports = [
       // Prettier 插件: 将 Prettier 作为 ESLint 规则运行
       "prettier/prettier": "warn",
       // 自定义规则
-      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
       "@typescript-eslint/explicit-function-return-type": "off"
     }
   }
