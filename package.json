@@ -46,15 +46,11 @@
     "vue-eslint-parser": "^10.4.0"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
+    "*.{ts,tsx,js,jsx, vue}": [
       "eslint --fix --cache",
       "prettier --write"
     ],
     "*.{json,md,yml,yaml}": [
-      "prettier --write"
-    ],
-    "*.vue": [
-      "eslint --fix --cache",
       "prettier --write"
     ]
   }
