@@ -1,5 +1,0 @@
-{
-  "*.{ts,tsx,js,jsx}": ["eslint --fix --cache", "prettier --write"],
-  "*.{json,md,yml,yaml}": ["prettier --write"],
-  "*.vue": ["eslint --fix --cache", "prettier --write"]
-}
