@@ -45,7 +45,7 @@ export const baseConfig = [
 
       // TypeScript 自定义规则
       "@typescript-eslint/no-unused-vars": [
-        "warn",
+        "error",
         {
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_",
