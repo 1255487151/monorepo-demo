@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
@@ -16,6 +17,13 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.28.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "volta": {
+    "node": "22.13.0",
+    "pnpm": "10.28.1"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.56.1",
     "@typescript-eslint/parser": "^8.56.1",
@@ -26,7 +34,8 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.3.1",
     "prettier": "^3.8.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "volta": "^0.0.0"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [

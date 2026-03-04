@@ -40,7 +40,8 @@
   "compileOnSave": true,
   "include": [
     // 包含的文件/目录
-    "packages/**/src/**/*"
+    "packages/**/src/**/*",
+    "packages/**/vite.config.ts"
   ],
   "exclude": [
     // 排除的文件/目录
