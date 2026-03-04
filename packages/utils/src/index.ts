@@ -99,3 +99,6 @@ export const throttle = <T extends (...args: unknown[]) => unknown>(
     }
   }
 }
+
+const a = 1
+console.log(a)
