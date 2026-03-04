@@ -44,14 +44,5 @@
     "typescript": "^5.9.3",
     "volta": "^0.0.0",
     "vue-eslint-parser": "^10.4.0"
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md,yml,yaml}": [
-      "prettier --write"
-    ]
   }
 }

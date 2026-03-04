@@ -99,3 +99,5 @@ export const throttle = <T extends (...args: unknown[]) => unknown>(
     }
   }
 }
+
+const a = 1
