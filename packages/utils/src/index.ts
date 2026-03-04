@@ -99,3 +99,4 @@ export const throttle = <T extends (...args: unknown[]) => unknown>(
     }
   }
 }
+console.log(debounce(() => console.log("debounce"), 1000))
