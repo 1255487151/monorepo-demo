@@ -1,16 +1,24 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src/**/*"],
-  "exclude": [
-    // 排除的文件/目录
-    "node_modules",
-    "dist"
-  ],
-  // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
+    // ========== 输出配置 ==========
     "baseUrl": ".",
+    "rootDir": "./src",
     "outDir": "./dist",
-    "declarationDir": "./dist/types", // 声明文件输出目录
+    "declarationDir": "./dist/types",
+
+    // ========== 模块系统 ==========
+    "module": "ESNext",
+
+    // ========== 路径别名 ==========
+    "paths": {
+      "@/*": ["./src/*"],
+      "@small-brother/utils": ["./src"]
+    },
+
+    // ========== 类型定义 ==========
     "types": ["node"]
-  }
+  },
+  "include": ["src/**/*", "**/*.d.ts"],
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts", "vitest.config.ts"]
 }

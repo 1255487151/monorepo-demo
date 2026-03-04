@@ -1,20 +1,64 @@
 {
   "name": "@small-brother/components",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Vue 3 组件库 - 基于 Element Plus",
   "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./style.css": "./dist/style.css"
   },
-  "keywords": [],
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vue-tsc --noEmit && vite build",
+    "build:prod": "vite build",
+    "type-check": "vue-tsc --noEmit",
+    "lint": "eslint . --ext .ts,.tsx,.vue",
+    "lint:fix": "eslint . --ext .ts,.tsx,.vue --fix",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "components",
+    "ui",
+    "element-plus",
+    "typescript"
+  ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "packageManager": "pnpm@10.28.1",
+  "peerDependencies": {
+    "vue": "^3.5.0",
+    "element-plus": "^2.8.0"
+  },
   "dependencies": {
     "vue": "^3.5.29"
   },
   "devDependencies": {
-    "vite": "^7.3.1"
+    "@types/node": "^25.3.3",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "element-plus": "^2.9.1",
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.0",
+    "vue-tsc": "^2.2.8",
+    "rimraf": "^6.0.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }

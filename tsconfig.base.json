@@ -2,53 +2,63 @@
   "compilerOptions": {
     // ========== 基础配置 ==========
     "module": "ESNext",
-    "baseUrl": ".",
-    // ========== 目标环境 ==========
-    "target": "ES2020",
     "moduleResolution": "bundler",
-    "types": [],
-    "lib": ["ES2020", "DOM"],
-    // ========== 模块系统 ==========
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "preserve",
+
+    // ========== 路径解析 ==========
+    "baseUrl": ".",
+    "rootDir": ".",
     "paths": {
-      // 路径映射，用于别名
-      "@/*": ["src/*"],
-      "@components/*": ["packages/components/src/*"],
-      "@utils/*": ["packages/utils/src/*"]
+      "@small-brother/*": ["packages/*/src"]
     },
+
+    // ========== 模块系统 ==========
     "verbatimModuleSyntax": true,
-    // ========== 互操作性 ==========
-    "esModuleInterop": true, // 启用 ES 模块互操作性
-    "allowSyntheticDefaultImports": true, // 允许从没有默认导出的模块进行默认导入
-    "resolveJsonModule": true, // 允许导入 JSON 模块
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+
     // ========== 输出配置 ==========
-    "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    // ========== 额外严格选项 ==========
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "sourceMap": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+
     // ========== 严格类型检查 ==========
     "strict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "alwaysStrict": true,
+
+    // ========== 额外检查 ==========
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // ========== 其他选项 ==========
+    "skipLibCheck": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true,
-    "jsx": "preserve"
+
+    // ========== 类型定义 ==========
+    "types": ["node"]
   },
   "compileOnSave": true,
-  "include": [
-    // 包含的文件/目录
-    "packages/**/src/**/*",
-    "packages/**/vite.config.ts"
-  ],
-  "exclude": [
-    // 排除的文件/目录
-    "node_modules"
-    // "dist",
-    // "build",
-    // "**/*.test.ts",
-    // "**/*.spec.ts"
-  ]
+  "include": ["packages/**/src/**/*", "**/*.d.ts", "**/*.ts"],
+  "exclude": ["node_modules", "dist", "**/dist/**", "**/node_modules/**"]
 }

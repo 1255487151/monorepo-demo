@@ -1,15 +1,25 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src/**/*", "vite.config.ts"],
-  "exclude": [
-    // 排除的文件/目录
-    "node_modules",
-    "dist"
-  ],
-  // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
+    // ========== 输出配置 ==========
     "baseUrl": ".",
+    "rootDir": ".",
     "outDir": "./dist",
-    "declarationDir": "./dist/types" // 声明文件输出目录
-  }
+    "declarationDir": "./dist/types",
+
+    // ========== Vue 支持 ==========
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+
+    // ========== 路径别名 ==========
+    "paths": {
+      "@/*": ["./src/*"],
+      "@small-brother/components": ["./src"]
+    },
+
+    // ========== 类型定义 ==========
+    "types": ["node", "vite/client"]
+  },
+  "include": ["src/**/*", "src/**/*.vue", "vite.config.ts", "**/*.d.ts"],
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"]
 }
