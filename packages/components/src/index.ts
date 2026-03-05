@@ -4,6 +4,7 @@
  */
 
 import type { App } from "vue"
+import XlgSelect from "./xlg-select/index.vue"
 
 // 导出类型定义
 export * from "./types"
@@ -15,6 +16,6 @@ export * from "./types"
 export default {
   install: (_app: App) => {
     // Vue 插件安装逻辑
-    // app.component('MyComponent', MyComponent)
+    _app.component("XlgSelect", XlgSelect)
   }
 }
