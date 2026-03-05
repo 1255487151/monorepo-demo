@@ -55,6 +55,9 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+      vite-plugin-dts:
+        specifier: ^4.5.4
+        version: 4.5.4(@types/node@25.3.3)(rollup@4.59.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.3.3)(jiti@2.6.1)(yaml@2.8.2))
       volta:
         specifier: ^0.0.0
         version: 0.0.0
@@ -64,6 +67,9 @@ importers:
 
   packages/components:
     dependencies:
+      "@small-brother/utils":
+        specifier: workspace:*
+        version: link:../utils
       vue:
         specifier: ^3.5.29
         version: 3.5.29(typescript@5.9.3)
@@ -98,6 +104,9 @@ importers:
       rimraf:
         specifier: ^6.0.1
         version: 6.1.3
+      vite:
+        specifier: ^7.3.1
+        version: 7.3.1(@types/node@25.3.3)(jiti@2.6.1)(yaml@2.8.2)
       vitest:
         specifier: ^2.1.0
         version: 2.1.9(@types/node@25.3.3)

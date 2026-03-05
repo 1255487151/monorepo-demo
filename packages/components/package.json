@@ -5,12 +5,12 @@
   "type": "module",
   "main": "./dist/index.umd.js",
   "module": "./dist/index.es.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js",
-      "types": "./dist/types/index.d.ts"
+      "require": "./dist/index.umd.js"
     },
     "./style.css": "./dist/style.css"
   },
@@ -46,7 +46,8 @@
     "element-plus": "^2.8.0"
   },
   "dependencies": {
-    "vue": "^3.5.29"
+    "vue": "^3.5.29",
+    "@small-brother/utils": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^25.3.3",

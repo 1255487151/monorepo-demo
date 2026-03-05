@@ -6,11 +6,12 @@ import { resolve } from "path"
 export default defineConfig({
   plugins: [
     vue(),
+    // 自动生成 TypeScript 类型声明文件
     dts({
-      insertTypesEntry: true,
-      outDir: "dist/types",
       include: ["src/**/*.ts", "src/**/*.vue"],
-      exclude: ["node_modules", "dist"]
+      exclude: ["node_modules", "dist"],
+      outDir: "dist",
+      insertTypesEntry: true
     })
   ],
   build: {
@@ -21,13 +22,14 @@ export default defineConfig({
       fileName: format => `index.${format === "es" ? "es" : "umd"}.js`
     },
     rollupOptions: {
-      // 确保外部化处理那些你不想打包进库的依赖
-      external: ["vue", "element-plus"],
+      // 外部化依赖，避免打包进库
+      external: ["vue", "element-plus", "@small-brother/utils"],
       output: {
-        // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
+        // UMD 模式的全局变量
         globals: {
           vue: "Vue",
-          "element-plus": "ElementPlus"
+          "element-plus": "ElementPlus",
+          "@small-brother/utils": "SmallBrotherUtils"
         },
         // 保留 CSS 文件名
         assetFileNames: assetInfo => {
@@ -35,12 +37,12 @@ export default defineConfig({
             return "style.css"
           }
           return assetInfo.name || "asset"
-        }
+        },
+        // 启用 tree-shaking
+        exports: "named"
       }
     },
-    // 生成 sourcemap
     sourcemap: true,
-    // CSS 代码分割
     cssCodeSplit: false
   },
   resolve: {
