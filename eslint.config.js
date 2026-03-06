@@ -4,7 +4,8 @@
  */
 import { baseConfig } from "./eslint/base.js"
 
-/** @type {import('eslint').Linter.Config[]} */
+/** @type {any[]} */
+
 export default [
   ...baseConfig,
   {

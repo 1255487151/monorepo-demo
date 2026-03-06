@@ -8,9 +8,11 @@ import tsParser from "@typescript-eslint/parser"
 import prettierConfig from "eslint-config-prettier"
 import prettierPlugin from "eslint-plugin-prettier"
 
-/** @type {import('eslint').Linter.Config[]} */
+/** @type {any[]} */
 export const baseConfig = [
-  // 忽略模式
+  // {
+  //   globalIgnores: ["**/node_modules/**", "**/dist/**", "**/coverage/**", "**/*.d.ts"]
+  // },
   {
     ignores: ["**/dist/**", "**/node_modules/**", "**/coverage/**", "**/*.d.ts"]
   },
@@ -35,7 +37,7 @@ export const baseConfig = [
     },
     rules: {
       // TypeScript ESLint 推荐规则（不需要类型检查）
-      ...tseslint.configs.recommended.rules,
+      ...tseslint.configs?.["recommended"]?.rules,
 
       // Prettier 集成: 禁用冲突规则
       ...prettierConfig.rules,
@@ -71,6 +73,11 @@ export const baseConfig = [
       "no-var": "error",
       eqeqeq: ["error", "always"]
     }
+    // linterOptions: {
+    //   noInlineConfig: false, // 是否禁用行内配置（如 /* eslint-disable */）
+    //   reportUnusedDisableDirectives: "warn", // 报告未使用的禁用指令
+    //   reportUnusedInlineConfigs: "warn" // 报告未使用的行内配置
+    // }
   }
 ]
 

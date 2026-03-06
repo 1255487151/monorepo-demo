@@ -302,3 +302,7 @@ module.exports = [
   }
 ]
 ```
+
+# .prettierrc.js
+
+> eslint-config-prettier eslint-plugin-prettier

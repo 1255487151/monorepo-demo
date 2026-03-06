@@ -6,7 +6,8 @@ import vueParser from "vue-eslint-parser"
 import tseslint from "@typescript-eslint/eslint-plugin"
 import tsParser from "@typescript-eslint/parser"
 
-/** @type {import('eslint').Linter.Config[]} */
+/** @type {any[]} */
+
 export const vueConfig = [
   ...vuePlugin.configs["flat/strongly-recommended"],
 

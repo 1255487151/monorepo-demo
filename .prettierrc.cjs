@@ -8,6 +8,6 @@ module.exports = {
   bracketSpacing: true, // 对象括号间是否加空格，默认 true
   arrowParens: "avoid", // 箭头函数参数是否加括号，可选值：always, avoid
   vueIndentScriptAndStyle: false, // Vue 文件中 <script> 和 <style> 是否缩进
-  endOfLine: "auto", // 换行符类型，可选值：lf, crlf, auto
+  endOfLine: "lf", // 换行符类型，可选值：lf, crlf, auto
   htmlWhitespaceSensitivity: "ignore" // HTML 空格敏感度
 }
