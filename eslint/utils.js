@@ -5,7 +5,8 @@
 import globals from "globals"
 import tseslint from "@typescript-eslint/eslint-plugin"
 
-/** @type {import('eslint').Linter.Config[]} */
+/** @type {any[]} */
+
 export const utilsConfig = [
   // Node.js 环境配置
   {

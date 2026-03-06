@@ -2,7 +2,7 @@
   "name": "xlg-demo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "type": "module",
   "scripts": {
     "lint": "eslint .",
