@@ -19,7 +19,7 @@ export default defineConfig({
       entry: resolve(__dirname, "src/index.ts"),
       name: "SmallBrotherComponents",
       formats: ["es", "umd"],
-      fileName: format => `index.${format === "es" ? "es" : "umd"}.js`
+      fileName: format => `index.${format === "es" ? "esm" : "umd"}.js`
     },
     rollupOptions: {
       // 外部化依赖，避免打包进库

@@ -4,12 +4,12 @@
   "description": "Vue 3 组件库 - 基于 Element Plus",
   "type": "module",
   "main": "./dist/index.umd.js",
-  "module": "./dist/index.es.js",
+  "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.es.js",
+      "import": "./dist/index.esm.js",
       "require": "./dist/index.umd.js"
     },
     "./style.css": "./dist/style.css"

@@ -12,15 +12,10 @@
 
 <script lang="ts" setup>
 import type { PropType } from "vue"
+import type { Options } from "../types"
 
-interface Option {
-  value: string | number
-  label: string
-  disabled: boolean
-}
-
-const options = defineModel<Option[]>("options", {
-  type: Array as PropType<Option[]>,
+const options = defineModel<Options[]>("options", {
+  type: Array as PropType<Options[]>,
   default: () => []
 })
 
