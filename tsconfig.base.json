@@ -27,6 +27,8 @@
     "sourceMap": true,
     "removeComments": false,
     "preserveConstEnums": true,
+    "allowJs": true, // 允许编译 JavaScript 文件
+    "checkJs": true, // 在 JavaScript 文件中报告错误
 
     // ========== 严格类型检查 ==========
     "strict": true,

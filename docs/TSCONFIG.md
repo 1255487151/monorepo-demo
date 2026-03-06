@@ -25,7 +25,7 @@
     // ========== 目标环境 ==========
     "target": "esnext", // 编译目标 ECMAScript 版本：esnext、es2022、es6等
     "lib": ["esnext"], // 包含的库定义文件，如 DOM、ES2015 等
-    "types": [], // 要包含的类型声明文件包名
+    "types": ["node"], // 要包含的类型声明文件包名
     "typeRoots": ["./node_modules/@types"], // 类型声明文件搜索目录
 
     // ========== 输出配置 ==========
