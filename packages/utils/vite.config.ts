@@ -16,7 +16,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "SmallBrotherUtils",
-      fileName: format => `index.${format}.js`,
+      fileName: format => `index.${format === "es" ? "mjs" : "cjs"}`,
       formats: ["es", "cjs"]
     },
     outDir: "dist",
