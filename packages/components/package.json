@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "description": "Vue 3 组件库 - 基于 Element Plus",
   "type": "module",
+  "private": false,
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
