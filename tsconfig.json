@@ -6,7 +6,7 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": ["packages/**/src/**/*", "eslint.config.js", "**/*.ts"],
+  "include": ["packages/**/src/**/*", "eslint.config.js", "**/*.ts", "**/*.d.ts"],
   "exclude": [
     "node_modules",
     "dist",

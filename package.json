@@ -15,9 +15,13 @@
     "code:check": "pnpm run lint && pnpm run format:check && pnpm run type-check",
     "code:fix": "pnpm run lint:fix && pnpm run format",
     "build": "pnpm -r run build",
+    "build:components": "pnpm -F @small-brother/components run build",
+    "build:utils": "pnpm -F @small-brother/utils run build",
     "clean": "pnpm -r run clean",
     "prepare": "husky",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "version": "npx tsx scripts/version.ts",
+    "release": "pnpm version --publish --push"
   },
   "keywords": [],
   "author": "",
@@ -53,7 +57,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,vue}": [
-      "eslint --fix --cache",
+      "eslint --fix",
       "prettier --write"
     ],
     "*.{json,md,yml,yaml}": [

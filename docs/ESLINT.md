@@ -29,7 +29,7 @@ module.exports = [
     // 类型: string[] | string
     // 作用: 指定此配置块应用的文件模式
     // 注意: 支持 glob 模式，如 "**/*.js", "src/**/*.{ts,tsx}"
-    files: ["**/*.{js,mjs,cjs}"],
+    files: ["**/*.{js,mjs,cjs,ts,vue,json,yaml,md,markdown}"],
 
     // 属性: languageOptions
     // 类型: Object
