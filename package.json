@@ -1,8 +1,8 @@
 {
-  "name": "xlg-demo",
+  "name": "small-brother",
   "version": "1.0.2",
   "description": "",
-  "private": false,
+  "private": true,
   "type": "module",
   "scripts": {
     "lint": "eslint .",
