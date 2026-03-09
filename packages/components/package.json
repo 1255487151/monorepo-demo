@@ -1,6 +1,6 @@
 {
   "name": "@smallbrother/components",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Vue 3 组件库 - 基于 Element Plus",
   "type": "module",
   "private": false,
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "vue": "^3.5.29",
-    "@smallbrother/utils": "^1.0.1"
+    "@smallbrother/utils": "^1.0.2"
   },
   "devDependencies": {
     "@types/node": "^25.3.3",
