@@ -82,7 +82,7 @@ monorepo-demo/
     "baseUrl": ".", // 基准路径
     "rootDir": ".", // 根目录
     "paths": {
-      "@small-brother/*": ["packages/*/src"] // 路径别名映射
+      "@smallbrother/*": ["packages/*/src"] // 路径别名映射
     },
 
     // ========== 模块系统 ==========
@@ -222,7 +222,7 @@ monorepo-demo/
     // ========== 路径别名 ==========
     "paths": {
       "@/*": ["./src/*"], // 相对于当前包的别名
-      "@small-brother/utils": ["./src"] // 包名别名
+      "@smallbrother/utils": ["./src"] // 包名别名
     },
 
     // ========== 类型定义 ==========
@@ -240,14 +240,14 @@ monorepo-demo/
 {
   "compilerOptions": {
     "paths": {
-      "@small-brother/*": ["packages/*/src"]
+      "@smallbrother/*": ["packages/*/src"]
     }
   }
 }
 
 // 使用示例
-import { debounce } from '@small-brother/utils'
-import { Button } from '@small-brother/components'
+import { debounce } from '@smallbrother/utils'
+import { Button } from '@smallbrother/components'
 ```
 
 ## 🔍 ESLint 配置
@@ -900,7 +900,7 @@ export default [
 {
   "compilerOptions": {
     "paths": {
-      "@small-brother/*": ["packages/*/src"]
+      "@smallbrother/*": ["packages/*/src"]
     }
   }
 }

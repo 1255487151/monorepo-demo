@@ -203,9 +203,9 @@ export function getAllPackages(): Map<string, PackageInfo> {
 /**
  * 获取包的 monorepo 内部依赖
  * @param pkg 包信息
- * @param scope 包作用域，默认为 @small-brother/
+ * @param scope 包作用域，默认为 @smallbrother/
  */
-export function getPackageDependencies(pkg: PackageJson, scope = "@small-brother/"): string[] {
+export function getPackageDependencies(pkg: PackageJson, scope = "@smallbrother/"): string[] {
   const allDeps = [
     ...Object.keys(pkg.dependencies || {}),
     ...Object.keys(pkg.peerDependencies || {})

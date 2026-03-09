@@ -67,7 +67,7 @@ importers:
 
   packages/components:
     dependencies:
-      "@small-brother/utils":
+      "@smallbrother/utils":
         specifier: workspace:*
         version: link:../utils
       vue:

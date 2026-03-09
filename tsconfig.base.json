@@ -11,7 +11,7 @@
     "baseUrl": ".",
     "rootDir": ".",
     "paths": {
-      "@small-brother/*": ["packages/*/src"]
+      "@smallbrother/*": ["packages/*/src"]
     },
 
     // ========== 模块系统 ==========

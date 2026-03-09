@@ -114,10 +114,10 @@ function printHelp(): void {
   pnpm version
 
   # 更新 components 包的 minor 版本
-  pnpm version -p @small-brother/components -t minor
+  pnpm version -p @smallbrother/components -t minor
 
   # 更新 utils 包并发布
-  pnpm version -p @small-brother/utils --publish
+  pnpm version -p @smallbrother/utils --publish
 
   # 创建预发布版本
   pnpm version -t prerelease --prerelease-id beta

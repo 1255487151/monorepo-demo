@@ -73,10 +73,10 @@ pnpm version -t major
 
 ```bash
 # 更新 components 包
-pnpm version -p @small-brother/components
+pnpm version -p @smallbrother/components
 
 # 更新 utils 包的 minor 版本
-pnpm version -p @small-brother/utils -t minor
+pnpm version -p @smallbrother/utils -t minor
 ```
 
 #### 3. 创建预发布版本
@@ -133,7 +133,7 @@ pnpm version -m "feat: 发布新版本"
 
 脚本会自动处理包之间的依赖关系：
 
-- 如果 `@small-brother/components` 依赖 `@small-brother/utils`
+- 如果 `@smallbrother/components` 依赖 `@smallbrother/utils`
 - 更新 `utils` 时，会自动更新 `components` 的依赖版本
 - 按拓扑顺序更新，确保依赖包先更新
 

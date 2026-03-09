@@ -1,5 +1,5 @@
 /**
- * @small-brother/components
+ * @smallbrother/components
  * Vue 3 组件库 - 基于 Element Plus
  */
 

@@ -23,13 +23,13 @@ export default defineConfig({
     },
     rollupOptions: {
       // 外部化依赖，避免打包进库
-      external: ["vue", "element-plus", "@small-brother/utils"],
+      external: ["vue", "element-plus", "@smallbrother/utils"],
       output: {
         // UMD 模式的全局变量
         globals: {
           vue: "Vue",
           "element-plus": "ElementPlus",
-          "@small-brother/utils": "SmallBrotherUtils"
+          "@smallbrother/utils": "SmallBrotherUtils"
         },
         // 保留 CSS 文件名
         assetFileNames: assetInfo => {
@@ -48,7 +48,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": resolve(__dirname, "src"),
-      "@small-brother/components": resolve(__dirname, "src")
+      "@smallbrother/components": resolve(__dirname, "src")
     }
   }
 })

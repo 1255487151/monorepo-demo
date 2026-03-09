@@ -14,7 +14,7 @@
     // ========== 路径别名 ==========
     "paths": {
       "@/*": ["./src/*"],
-      "@small-brother/components": ["./src"]
+      "@smallbrother/components": ["./src"]
     },
 
     // ========== 类型定义 ==========

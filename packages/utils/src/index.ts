@@ -1,5 +1,5 @@
 /**
- * @small-brother/utils
+ * @smallbrother/utils
  * 通用工具函数库
  */
 

@@ -1,5 +1,5 @@
 {
-  "name": "small-brother",
+  "name": "smallbrother",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -15,8 +15,8 @@
     "code:check": "pnpm run lint && pnpm run format:check && pnpm run type-check",
     "code:fix": "pnpm run lint:fix && pnpm run format",
     "build": "pnpm -r run build",
-    "build:components": "pnpm -F @small-brother/components run build",
-    "build:utils": "pnpm -F @small-brother/utils run build",
+    "build:components": "pnpm -F @smallbrother/components run build",
+    "build:utils": "pnpm -F @smallbrother/utils run build",
     "clean": "pnpm -r run clean",
     "prepare": "husky",
     "commit": "git-cz",
