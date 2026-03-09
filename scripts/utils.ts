@@ -68,7 +68,7 @@ export function execCommand(command: string, silent = false, cwd: string = ROOT_
       stdio: silent ? "pipe" : "inherit"
     })
     log(`❌ result结果: ${result}`, "yellow")
-    return result?.trim()
+    return result
   } catch (error) {
     if (!silent) {
       log(`❌ 命令执行失败: ${command}`, "red")
