@@ -1,6 +1,6 @@
 {
   "name": "@small-brother/utils",
-  "version": "1.0.6",
+  "version": "1.0.0",
   "description": "通用工具函数库 - TypeScript",
   "type": "module",
   "private": false,
