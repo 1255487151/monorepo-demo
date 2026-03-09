@@ -21,7 +21,7 @@
     "prepare": "husky",
     "commit": "git-cz",
     "version": "npx tsx scripts/version.ts",
-    "release": "pnpm version --publish --push"
+    "release": "pnpm run version --publish --push"
   },
   "keywords": [],
   "author": "",
