@@ -1,7 +1,7 @@
 <template>
-  <el-select v-model="modelValue" placeholder="Select" style="width: 100%" v-bind="$attrs">
+  <el-select v-model="modelValue" style="width: 100%" v-bind="$attrs">
     <el-option
-      v-for="item in options"
+      v-for="item in props.options"
       :key="item.value"
       :label="item.label"
       :value="item.value"
@@ -11,16 +11,20 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from "vue"
 import type { Options } from "../types"
+import { ElSelect, ElOption } from "element-plus"
 
-const options = defineModel<Options[]>("options", {
-  type: Array as PropType<Options[]>,
-  default: () => []
-})
+const props = withDefaults(
+  defineProps<{
+    options?: Options[]
+  }>(),
+  {
+    options: () => []
+  }
+)
 
 const modelValue = defineModel<string | number | (string | number)[]>("modelValue", {
-  type: [String, Number, Array] as PropType<string | number | (string | number)[]>,
+  type: [String, Number, Array],
   default: ""
 })
 </script>

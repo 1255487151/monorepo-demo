@@ -172,6 +172,8 @@ export function getAllPackages(): Map<string, PackageInfo> {
   // 读取工作区包
   try {
     const workspaceInfo = execCommand("pnpm list -r --depth -1 --json", true)
+    console.log(workspaceInfo, "workspaceInfo")
+
     const workspaces = JSON.parse(workspaceInfo) as Array<{ path: string }>
 
     for (const workspace of workspaces) {
@@ -197,6 +199,8 @@ export function getAllPackages(): Map<string, PackageInfo> {
     }
   }
 
+  console.log(packages, "packages")
+  log(`📦 找到 ${packages.size} 个包`, "blue")
   return packages
 }
 
@@ -240,6 +244,8 @@ export function topologicalSort(packages: Map<string, PackageInfo>): string[] {
     visiting.delete(pkgName)
     visited.add(pkgName)
     sorted.push(pkgName)
+    log(`📦 ${pkgName} - pkgName`, "blue")
+    log(`📦 ${visited} - visited`, "blue")
   }
 
   for (const pkgName of packages.keys()) {

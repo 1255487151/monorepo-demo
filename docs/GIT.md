@@ -31,7 +31,7 @@ git config --global --get https.proxy
 
 ```bash
 npm config get registry
-npm config set registry https://registry.npm.taobao.org
+npm config set registry https://registry.npmjs.org/
 ```
 
 ### 设置、查看、修改远程git仓库

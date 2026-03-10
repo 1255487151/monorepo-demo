@@ -4,5 +4,5 @@
 export interface Options {
   value: string | number
   label: string
-  disabled: boolean
+  disabled?: boolean
 }
