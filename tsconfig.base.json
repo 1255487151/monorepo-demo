@@ -55,11 +55,11 @@
     // ========== 其他选项 ==========
     "skipLibCheck": true,
     "isolatedModules": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
 
     // ========== 类型定义 ==========
     // 移除 types 限制，让 TypeScript 自动发现所有类型定义
-    // "types": ["node"]
+    "types": ["node"]
   },
   "compileOnSave": true,
   "include": ["packages/**/src/**/*", "**/*.d.ts", "**/*.ts"],

@@ -1,7 +1,7 @@
 /**
  * 组件库类型定义
  */
-export interface Options {
+export interface OptionItems {
   value: string | number
   label: string
   disabled?: boolean

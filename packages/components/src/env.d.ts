@@ -7,3 +7,5 @@ declare module "@vue/runtime-core" {
     ElOption: (typeof import("element-plus"))["ElOption"]
   }
 }
+
+export {}

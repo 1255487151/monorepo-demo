@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "vue": "^3.5.29",
-    "@smallbrother/utils": "^1.0.1"
+    "@smallbrother/utils": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^25.3.3",

@@ -11,12 +11,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { Options } from "../types"
 import { ElSelect, ElOption } from "element-plus"
+// import type { PropType } from "vue"
+import type { OptionItems } from "../types"
 
 const props = withDefaults(
   defineProps<{
-    options?: Options[]
+    options: OptionItems[]
   }>(),
   {
     options: () => []
