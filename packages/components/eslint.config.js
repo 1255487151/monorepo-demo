@@ -10,7 +10,15 @@ export default [
   ...baseConfig,
   ...vueConfig,
   {
-    ignores: ["dist/**", "node_modules/**", "coverage/**", "*.d.ts", "eslint.config.js"]
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      "coverage/**",
+      "*.d.ts",
+      "eslint.config.js",
+      "src/auto-imports.d.ts",
+      "src/components.d.ts"
+    ]
   },
   // Element Plus 相关规则
   {
