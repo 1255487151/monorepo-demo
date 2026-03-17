@@ -77,7 +77,7 @@ export default defineConfig({
       // 复制 .d.ts 文件到输出目录
       copyDtsFiles: true,
       // 静态导入
-      staticImport: true,
+      staticImport: false,
       // 清理输出目录
       cleanVueFileName: true,
       // 优化：解决 monorepo 中的路径问题
@@ -114,11 +114,9 @@ export default defineConfig({
         },
         // 保留 CSS 文件名
         assetFileNames: assetInfo => {
-          if (assetInfo.name === "style.css") {
-            return "style.css"
-          }
+          // 将所有 CSS 文件输出为 style.css（便于导入）
           if (assetInfo.name && /\.(css|scss|sass)$/.test(assetInfo.name)) {
-            return "assets/[name]-[hash][extname]"
+            return "style.css"
           }
           return "assets/[name]-[hash][extname]"
         },
