@@ -18,6 +18,11 @@ export default defineConfig({
           importStyle: "css"
         })
       ],
+      // 启用严格模式，只生成实际使用的 API
+      include: [
+        /\.[jt]sx?$/, // .ts, .tsx, .js, .jsx
+        /\.vue$/ // .vue
+      ],
       // 自动生成类型声明文件
       dts: resolve(__dirname, "src/auto-imports.d.ts"),
       // 排除不需要自动导入的文件
