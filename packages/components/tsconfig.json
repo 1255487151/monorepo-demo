@@ -18,7 +18,7 @@
     },
 
     // ========== 类型定义 ==========
-    "types": ["node", "vite/client"]
+    "types": ["node", "vite/client", "element-plus/global"]
   },
   "include": ["src/**/*", "src/**/*.vue", "vite.config.ts", "**/*.d.ts"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"]

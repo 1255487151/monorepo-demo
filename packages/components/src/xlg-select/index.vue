@@ -1,5 +1,6 @@
 <template>
   <el-select v-model="modelValue" style="width: 100%" v-bind="$attrs">
+    <!-- @vue-ignore -->
     <el-option
       v-for="item in props.options"
       :key="item.value"
@@ -11,8 +12,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ElSelect, ElOption } from "element-plus"
-// import type { PropType } from "vue"
 import type { OptionItems } from "../types"
 
 const props = withDefaults(
