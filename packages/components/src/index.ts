@@ -9,6 +9,8 @@ import XlgSelect from "./xlg-select/index.vue"
 // 导出类型定义
 export * from "./types"
 
+export { XlgSelect }
+
 // 默认导出
 export default {
   install: (_app: App) => {
