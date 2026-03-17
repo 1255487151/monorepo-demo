@@ -11,6 +11,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    'AutoImports.d': typeof import('./auto-imports.d.ts')['default']
+    'Components.d': typeof import('./components.d.ts')['default']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     'Env.d': typeof import('./env.d.ts')['default']
