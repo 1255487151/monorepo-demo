@@ -28,11 +28,11 @@ export default defineConfig({
       // 排除不需要自动导入的文件
       exclude: ["**/node_modules/**", "**/dist/**"],
       // 自动导入的 eslint 配置
-      eslintrc: {
-        enabled: true, // 生成 .eslintrc-auto-import.json
-        filepath: resolve(__dirname, ".eslintrc-auto-import.json"),
-        globalsPropValue: true
-      },
+      // eslintrc: {
+      //   enabled: true, // 生成 .eslintrc-auto-import.json
+      //   filepath: resolve(__dirname, ".eslintrc-auto-import.json"),
+      //   globalsPropValue: true
+      // },
       // 优化：添加 vue 模板支持
       vueTemplate: true
     }),
