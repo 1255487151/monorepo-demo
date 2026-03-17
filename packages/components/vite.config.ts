@@ -145,13 +145,6 @@ export default defineConfig({
     sourcemap: true,
     // CSS 代码分割配置
     cssCodeSplit: true,
-    // 优化：最小化配置
-    minify: "terser",
-    // 优化：报告构建信息
-    reportCompressedSize: true,
-    // 块大小警告限制
-    chunkSizeWarningLimit: 1000,
-    // 优化：构建目标
     target: "es2020",
     // 优化：模块解析
     modulePreload: {
