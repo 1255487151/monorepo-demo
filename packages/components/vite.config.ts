@@ -2,70 +2,10 @@ import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
 import dts from "vite-plugin-dts"
 import { resolve } from "path"
-import AutoImport from "unplugin-auto-import/vite"
-import Components from "unplugin-vue-components/vite"
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
 
 export default defineConfig({
   plugins: [
     vue(),
-    // 优化：增强自动导入配置
-    AutoImport({
-      imports: ["vue"],
-      resolvers: [
-        ElementPlusResolver({
-          // 按需导入样式
-          importStyle: "css"
-        })
-      ],
-      // 启用严格模式，只生成实际使用的 API
-      include: [
-        /\.[jt]sx?$/, // .ts, .tsx, .js, .jsx
-        /\.vue$/ // .vue
-      ],
-      // 自动生成类型声明文件
-      dts: resolve(__dirname, "src/auto-imports.d.ts"),
-      // 排除不需要自动导入的文件
-      exclude: ["**/node_modules/**", "**/dist/**"],
-      // 自动导入的 eslint 配置
-      // eslintrc: {
-      //   enabled: true, // 生成 .eslintrc-auto-import.json
-      //   filepath: resolve(__dirname, ".eslintrc-auto-import.json"),
-      //   globalsPropValue: true
-      // },
-      // 优化：添加 vue 模板支持
-      vueTemplate: true
-    }),
-    // 优化：增强组件自动导入配置
-    Components({
-      resolvers: [
-        // Element Plus 组件解析器
-        ElementPlusResolver({
-          // 按需导入样式
-          importStyle: "css"
-        }),
-        // 自定义组件解析器（自动导入本地组件）
-        componentName => {
-          if (componentName.startsWith("xlg")) {
-            return {
-              name: componentName,
-              from: resolve(__dirname, `src/${componentName.toLowerCase()}/index.vue`)
-            }
-          }
-          return undefined // 默认返回值
-        }
-      ],
-      // 组件自动导入的目录
-      dirs: [resolve(__dirname, "src/**/"), resolve(__dirname, "src/components/**/")],
-      // 包含的文件类型
-      extensions: ["vue", "ts", "tsx"],
-      // 排除的文件
-      exclude: [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/, /[\\/]\.nuxt[\\/]/],
-      // 自动生成类型声明文件
-      dts: resolve(__dirname, "src/components.d.ts"),
-      // 组件名转换规则（kebab-case 转 PascalCase）
-      directoryAsNamespace: true
-    }),
     // 优化：增强类型声明生成配置（适用于 monorepo）
     dts({
       include: [
@@ -126,15 +66,7 @@ export default defineConfig({
           return "assets/[name]-[hash][extname]"
         },
         // 启用 tree-shaking
-        exports: "named",
-        // 优化：更好的代码分割
-        manualChunks: undefined,
-        // 保留模块结构
-        preserveModules: false,
-        // 优化：更好的模块 ID
-        generatedCode: {
-          constBindings: true
-        }
+        exports: "named"
       },
       // 优化：tree-shaking 配置
       treeshake: {
@@ -158,9 +90,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": resolve(__dirname, "src"),
-      "@smallbrother/components": resolve(__dirname, "src"),
-      // 添加更多常用别名
-      "@components": resolve(__dirname, "src"),
       "@types": resolve(__dirname, "src/types")
     },
     // 优化：扩展名解析
@@ -168,17 +97,4 @@ export default defineConfig({
     // 优化：条件导出支持
     conditions: ["import", "module", "browser", "default"]
   }
-  // 优化：CSS 配置
-  // css: {
-  //   preprocessorOptions: {
-  //     scss: {
-  //       // 可添加全局 scss 变量
-  //       additionalData: `@use "@/styles/variables.scss" as *;`
-  //     }
-  //   },
-  //   // 启用 CSS 模块
-  //   modules: {
-  //     generateScopedName: "[name]__[local]___[hash:base64:5]"
-  //   }
-  // }
 })
