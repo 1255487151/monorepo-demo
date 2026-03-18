@@ -3,6 +3,6 @@
  */
 export interface OptionItems {
   value: string | number
-  label: string
+  label: string | number
   disabled?: boolean
 }
