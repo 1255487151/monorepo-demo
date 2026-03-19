@@ -13,8 +13,8 @@
     },
     "./style.css": "./dist/style.css",
     "./components": {
-      "types": "./dist/src/index.d.ts",
-      "import": "./dist/index.mjs"
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.mjs"
     }
   },
   "files": [
