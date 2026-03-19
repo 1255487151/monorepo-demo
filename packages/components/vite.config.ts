@@ -69,7 +69,7 @@ export default defineConfig({
       }
     },
     // 生成 sourcemap
-    sourcemap: true,
+    sourcemap: false,
     target: "ES2020",
     // 优化：模块解析
     modulePreload: {
