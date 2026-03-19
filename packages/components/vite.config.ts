@@ -11,6 +11,7 @@ export default defineConfig({
       include: ["src/**/*.ts", "src/**/*.vue", "src/**/*.tsx"],
       exclude: ["node_modules/**", "dist/**", "**/*.test.ts", "**/*.spec.ts"],
       outDir: "dist",
+      entryRoot: "src",
       // 生成入口文件类型声明
       insertTypesEntry: true,
       // 复制 .d.ts 文件到输出目录
@@ -20,7 +21,10 @@ export default defineConfig({
       // 别名配置
       aliasesExclude: [/^@smallbrother\//],
       // 类型文件合并
-      bundledPackages: ["vue", "element-plus"]
+      bundledPackages: ["vue", "element-plus"],
+      compilerOptions: {
+        declarationMap: false // 不生成 .d.ts.map
+      }
     })
   ],
   // 优化：构建配置增强
