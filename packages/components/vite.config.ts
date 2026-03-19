@@ -41,6 +41,10 @@ export default defineConfig({
         /^@smallbrother\//
       ],
       output: {
+        preserveModules: true,
+        preserveModulesRoot: "src",
+        entryFileNames: "[name].mjs",
+        chunkFileNames: "[name].mjs",
         // 保留 CSS 文件名
         assetFileNames: assetInfo => {
           // 将所有 CSS 文件输出为 style.css（便于导入）
