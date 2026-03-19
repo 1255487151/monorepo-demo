@@ -6,4 +6,5 @@ export const resolveComponents = (componentName: string) => {
       directory: "src/components"
     }
   }
+  return
 }
