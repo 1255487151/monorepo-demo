@@ -48,8 +48,11 @@ export default defineConfig({
         preserveModules: true,
         preserveModulesRoot: "src",
         entryFileNames: "[name].mjs",
-        chunkFileNames: "[name].mjs",
-        sanitizeFileName: name => name.replace(/\.vue\d+$/, ".vue"),
+        chunkFileNames: chunkInfo => {
+          // 移除 .vue 后的数字后缀
+          const name = chunkInfo.name.replace(/\.vue\d+$/, ".vue")
+          return `${name}.mjs`
+        },
         // 保留 CSS 文件名
         assetFileNames: assetInfo => {
           // 将所有 CSS 文件输出为 style.css（便于导入）
