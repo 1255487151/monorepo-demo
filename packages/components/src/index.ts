@@ -7,8 +7,6 @@ import type { App } from "vue"
 import * as XlgUi from "./components"
 // 导出类型定义
 export * from "./types"
-export * from "./components"
-
 // 默认导出
 export default {
   install: (_app: App) => {
