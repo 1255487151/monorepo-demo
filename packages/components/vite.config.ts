@@ -49,14 +49,14 @@ export default defineConfig({
         preserveModulesRoot: "src",
         entryFileNames: "[name].mjs",
         chunkFileNames: "[name].mjs",
-        // 保留 CSS 文件名
-        assetFileNames: assetInfo => {
-          // 将所有 CSS 文件输出为 style.css（便于导入）
-          if (assetInfo.name && /\.(css|scss|sass)$/.test(assetInfo.name)) {
-            return "style.css"
-          }
-          return "assets/[name]-[hash][extname]"
-        },
+        // // 保留 CSS 文件名
+        // assetFileNames: assetInfo => {
+        //   // 将所有 CSS 文件输出为 style.css（便于导入）
+        //   if (assetInfo.name && /\.(css|scss|sass)$/.test(assetInfo.name)) {
+        //     return "style.css"
+        //   }
+        //   return "assets/[name]-[hash][extname]"
+        // },
         // 启用 tree-shaking
         exports: "named"
       },
