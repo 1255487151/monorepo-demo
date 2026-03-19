@@ -65,7 +65,7 @@ export default defineConfig({
     },
     // 生成 sourcemap
     sourcemap: true,
-    target: "latest",
+    target: "ES2020",
     // 优化：模块解析
     modulePreload: {
       polyfill: false
