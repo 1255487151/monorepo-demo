@@ -4,20 +4,17 @@
   "description": "Vue 3 组件库 - 基于 Element Plus",
   "type": "module",
   "private": false,
-  "main": "./dist/index.umd.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.umd.cjs"
+      "import": "./dist/index.mjs"
     },
     "./style.css": "./dist/style.css",
     "./components": {
       "types": "./dist/src/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.umd.cjs"
+      "import": "./dist/index.mjs"
     }
   },
   "files": [

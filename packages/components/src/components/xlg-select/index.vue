@@ -12,8 +12,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { OptionItems } from "../types"
+import type { OptionItems } from "../../types"
 import { useAttrs } from "vue"
+import { ElSelect, ElOption } from "element-plus"
 
 interface IProps {
   options: OptionItems[]

@@ -8,25 +8,15 @@ export default defineConfig({
     vue(),
     // 优化：增强类型声明生成配置（适用于 monorepo）
     dts({
-      include: [
-        "src/**/*.ts",
-        "src/**/*.vue",
-        "src/**/*.tsx",
-        "src/auto-imports.d.ts",
-        "src/components.d.ts"
-      ],
+      include: ["src/**/*.ts", "src/**/*.vue", "src/**/*.tsx"],
       exclude: ["node_modules/**", "dist/**", "**/*.test.ts", "**/*.spec.ts"],
       outDir: "dist",
       // 生成入口文件类型声明
       insertTypesEntry: true,
       // 复制 .d.ts 文件到输出目录
       copyDtsFiles: true,
-      // 静态导入
-      staticImport: false,
       // 清理输出目录
       cleanVueFileName: true,
-      // 优化：解决 monorepo 中的路径问题
-      pathsToAliases: true,
       // 别名配置
       aliasesExclude: [/^@smallbrother\//],
       // 类型文件合并
@@ -38,8 +28,11 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "SmallBrotherComponents",
-      formats: ["es", "umd"],
-      fileName: format => `index.${format === "es" ? "mjs" : "umd.cjs"}`
+      formats: ["es"],
+      fileName: (format, name) => {
+        console.log(format, name)
+        return "index.mjs"
+      }
     },
     rollupOptions: {
       // 外部化依赖，避免打包进库
@@ -51,12 +44,6 @@ export default defineConfig({
         /^@smallbrother\//
       ],
       output: {
-        // UMD 模式的全局变量
-        globals: {
-          vue: "Vue",
-          "element-plus": "ElementPlus",
-          "@smallbrother/utils": "SmallBrotherUtils"
-        },
         // 保留 CSS 文件名
         assetFileNames: assetInfo => {
           // 将所有 CSS 文件输出为 style.css（便于导入）
@@ -78,9 +65,7 @@ export default defineConfig({
     },
     // 生成 sourcemap
     sourcemap: true,
-    // CSS 代码分割配置
-    cssCodeSplit: true,
-    target: "es2020",
+    target: "latest",
     // 优化：模块解析
     modulePreload: {
       polyfill: false

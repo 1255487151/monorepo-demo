@@ -4,17 +4,16 @@
  */
 
 import type { App } from "vue"
-import XlgSelect from "./xlg-select/index.vue"
-
+import * as XlgUi from "./components"
 // 导出类型定义
 export * from "./types"
-
-export { XlgSelect }
+export * from "./components"
 
 // 默认导出
 export default {
   install: (_app: App) => {
-    // Vue 插件安装逻辑
-    _app.component("XlgSelect", XlgSelect)
+    for (const [name, component] of Object.entries(XlgUi)) {
+      _app.component(name, component)
+    }
   }
 }
