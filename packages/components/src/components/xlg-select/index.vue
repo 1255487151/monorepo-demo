@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="modelValue" style="width: 100%" v-bind="attrs">
+  <el-select v-model="modelValue" class="xlg-select" v-bind="attrs">
     <!-- @vue-ignore -->
     <el-option
       v-for="item in props.options"
@@ -32,4 +32,8 @@ const modelValue = defineModel<string | number | (string | number)[]>("modelValu
 const attrs = useAttrs()
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.xlg-select {
+  width: 100%;
+}
+</style>
