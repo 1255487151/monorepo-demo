@@ -29,10 +29,7 @@ export default defineConfig({
       entry: resolve(__dirname, "src/index.ts"),
       name: "SmallBrotherComponents",
       formats: ["es"],
-      fileName: (format, name) => {
-        console.log(format, name)
-        return "index.mjs"
-      }
+      fileName: (_format, name) => `${name}.mjs`
     },
     rollupOptions: {
       // 外部化依赖，避免打包进库
