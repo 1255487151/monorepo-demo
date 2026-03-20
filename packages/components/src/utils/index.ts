@@ -1,4 +1,4 @@
-export function resolveComponents(prefix = "xlg", libraryName = "@smallbrother/components") {
+export function resolveComponents(prefix = "Xlg", libraryName = "@smallbrother/components") {
   return (name: string) => {
     // 1. 严格匹配：只处理指定前缀的组件
     if (!name.startsWith(prefix)) return

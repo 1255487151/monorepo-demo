@@ -1,6 +1,6 @@
 {
   "name": "@smallbrother/components",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Vue 3 组件库 - 基于 Element Plus",
   "type": "module",
   "private": false,
@@ -18,9 +18,9 @@
     },
     "./components/*": {
       "types": "./dist/components/*/index.d.ts",
-      "import": "./dist/components/*/index.vue.mjs",
-      "style": "./dist/components/*/index.css"
-    }
+      "import": "./dist/components/*/index.vue.mjs"
+    },
+    "./components/*/index.css": "./dist/components/*/index.css"
   },
   "files": [
     "dist",
