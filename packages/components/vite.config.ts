@@ -27,13 +27,6 @@ export default defineConfig({
       }
     })
   ],
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: "modern-compiler"
-      }
-    }
-  },
   // 优化：构建配置增强
   build: {
     lib: {
