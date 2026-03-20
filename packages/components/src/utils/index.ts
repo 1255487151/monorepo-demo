@@ -10,7 +10,7 @@ export function resolveComponents(prefix = "Xlg", libraryName = "@smallbrother/c
 
     return {
       name: name, // 组件名不变
-      from: `${libraryName}/components/${componentDir}`, // 精确导入路径
+      from: `${libraryName}/components/`, // 精确导入路径
       sideEffects: [`${libraryName}/components/${componentDir}/index.css`] // 自动引入样式（如有）
     }
   }
