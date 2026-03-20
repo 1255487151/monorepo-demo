@@ -6,6 +6,7 @@
 import type { App } from "vue"
 import * as XlgUi from "./components"
 export * from "./components"
+export { resolveComponents } from "./utils"
 export * from "./style/index.scss"
 // 导出类型定义
 export * from "./types"

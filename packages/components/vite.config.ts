@@ -12,6 +12,7 @@ export default defineConfig({
       exclude: ["node_modules/**", "dist/**", "**/*.test.ts", "**/*.spec.ts"],
       outDir: "dist",
       entryRoot: "src",
+      tsconfigPath: "./tsconfig.json",
       // 生成入口文件类型声明
       insertTypesEntry: true,
       // 复制 .d.ts 文件到输出目录
