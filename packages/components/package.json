@@ -15,6 +15,11 @@
     "./components": {
       "types": "./dist/components/index.d.ts",
       "import": "./dist/components/index.mjs"
+    },
+    "./components/*": {
+      "types": "./dist/components/*/index.d.ts",
+      "import": "./dist/components/*/index.vue.mjs",
+      "style": "./dist/components/*/index.css"
     }
   },
   "files": [
