@@ -27,6 +27,13 @@ export default defineConfig({
       }
     })
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern-compiler"
+      }
+    }
+  },
   // 优化：构建配置增强
   build: {
     lib: {
@@ -35,6 +42,7 @@ export default defineConfig({
       formats: ["es"],
       fileName: (_format, name) => `${name}.mjs`
     },
+    cssCodeSplit: true,
     rollupOptions: {
       // 外部化依赖，避免打包进库
       external: [
@@ -49,14 +57,14 @@ export default defineConfig({
         preserveModulesRoot: "src",
         entryFileNames: "[name].mjs",
         chunkFileNames: "[name].mjs",
-        // // 保留 CSS 文件名
-        // assetFileNames: assetInfo => {
-        //   // 将所有 CSS 文件输出为 style.css（便于导入）
-        //   if (assetInfo.name && /\.(css|scss|sass)$/.test(assetInfo.name)) {
-        //     return "style.css"
-        //   }
-        //   return "assets/[name]-[hash][extname]"
-        // },
+        assetFileNames: asset => {
+          // 组件样式 → 与组件同目录
+          if (asset.name?.endsWith(".css")) {
+            return "[name].css"
+          }
+          // 其他资源
+          return "assets/[name][ext]"
+        },
         // 启用 tree-shaking
         exports: "named"
       },
@@ -68,6 +76,7 @@ export default defineConfig({
         tryCatchDeoptimization: false
       }
     },
+
     // 生成 sourcemap
     sourcemap: false,
     target: "ES2020",
