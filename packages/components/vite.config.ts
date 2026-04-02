@@ -1,68 +1,192 @@
-import { defineConfig } from "vite"
-import vue from "@vitejs/plugin-vue"
-import dts from "vite-plugin-dts"
+import { existsSync, readdirSync } from "fs"
 import { resolve } from "path"
+import vue from "@vitejs/plugin-vue"
+import { compile } from "sass"
+import { defineConfig, type Plugin } from "vite"
+import dts from "vite-plugin-dts"
+
+type ComponentEntry = {
+  name: string
+  entryFile: string
+  styleFile?: string
+}
+
+const rootDir = __dirname
+const srcDir = resolve(rootDir, "src")
+const componentsDir = resolve(srcDir, "components")
+const styleDir = resolve(srcDir, "style")
+
+function getComponentEntries() {
+  const entries: ComponentEntry[] = []
+
+  for (const entry of readdirSync(componentsDir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) {
+      continue
+    }
+
+    const entryFile = resolve(componentsDir, entry.name, "index.ts")
+
+    if (!existsSync(entryFile)) {
+      continue
+    }
+
+    const styleFile = resolve(componentsDir, entry.name, "index.scss")
+    const componentEntry: ComponentEntry = {
+      name: entry.name,
+      entryFile
+    }
+
+    if (existsSync(styleFile)) {
+      componentEntry.styleFile = styleFile
+    }
+
+    entries.push(componentEntry)
+  }
+
+  return entries.sort((left, right) => left.name.localeCompare(right.name))
+}
+
+const componentEntries = getComponentEntries()
+
+function createLibraryEntries() {
+  const entries: Record<string, string> = {
+    index: resolve(srcDir, "index.ts"),
+    "components/index": resolve(componentsDir, "index.ts"),
+    "style/index": resolve(styleDir, "index.ts")
+  }
+
+  for (const component of componentEntries) {
+    entries[`components/${component.name}/index`] = component.entryFile
+  }
+
+  return entries
+}
+
+function compileScss(filePath: string) {
+  return compile(filePath, {
+    style: "compressed",
+    loadPaths: [srcDir]
+  }).css
+}
+
+function componentStyleVirtualModule(components: ComponentEntry[]): Plugin {
+  const virtualId = "virtual:xlg-component-styles"
+  const resolvedVirtualId = `\0${virtualId}`
+
+  return {
+    name: "xlg-component-style-virtual-module",
+    resolveId(id) {
+      if (id === virtualId) {
+        return resolvedVirtualId
+      }
+
+      return null
+    },
+    load(id) {
+      if (id !== resolvedVirtualId) {
+        return null
+      }
+
+      return components
+        .filter(component => component.styleFile)
+        .map(component => `import ${JSON.stringify(component.styleFile)}`)
+        .join("\n")
+    }
+  }
+}
+
+function emitLibraryCssAssets(components: ComponentEntry[]): Plugin {
+  return {
+    name: "xlg-emit-library-css-assets",
+    generateBundle(_options, bundle) {
+      for (const [fileName, file] of Object.entries(bundle)) {
+        if (file.type === "asset" && fileName.endsWith(".css")) {
+          delete bundle[fileName]
+        }
+      }
+
+      const sharedStyleFile = resolve(styleDir, "index.scss")
+      let sharedCss = ""
+
+      if (existsSync(sharedStyleFile)) {
+        sharedCss = compileScss(sharedStyleFile)
+      }
+
+      const componentCssMap = new Map<string, string>()
+
+      for (const component of components) {
+        const css = component.styleFile ? compileScss(component.styleFile) : ""
+        componentCssMap.set(component.name, css)
+
+        this.emitFile({
+          type: "asset",
+          fileName: `components/${component.name}/index.css`,
+          source: css
+        })
+      }
+
+      const aggregateCss = [sharedCss, ...componentCssMap.values()].filter(Boolean).join("\n")
+
+      this.emitFile({
+        type: "asset",
+        fileName: "style/index.css",
+        source: aggregateCss
+      })
+    }
+  }
+}
 
 export default defineConfig({
   plugins: [
     vue(),
-    // 优化：增强类型声明生成配置（适用于 monorepo）
+    componentStyleVirtualModule(componentEntries),
+    emitLibraryCssAssets(componentEntries),
     dts({
-      include: ["src/**/*.ts", "src/**/*.vue", "src/**/*.tsx"],
+      include: ["src/**/*.ts", "src/**/*.vue"],
       exclude: ["node_modules/**", "dist/**", "**/*.test.ts", "**/*.spec.ts"],
       outDir: "dist",
       entryRoot: "src",
       tsconfigPath: "./tsconfig.json",
-      // 生成入口文件类型声明
       insertTypesEntry: true,
-      // 复制 .d.ts 文件到输出目录
       copyDtsFiles: true,
-      // 清理输出目录
       cleanVueFileName: true,
-      // 别名配置
       aliasesExclude: [/^@smallbrother\//],
-      // 类型文件合并
-      bundledPackages: ["vue", "element-plus"],
       compilerOptions: {
-        declarationMap: false // 不生成 .d.ts.map
+        declarationMap: false
       }
     })
   ],
-  // 优化：构建配置增强
   build: {
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
+      entry: createLibraryEntries(),
       name: "SmallBrotherComponents",
       formats: ["es"],
-      fileName: (_format, name) => `${name}.mjs`
+      fileName: (_format, entryName) => `${entryName}.mjs`
     },
+    outDir: "dist",
+    emptyOutDir: true,
     cssCodeSplit: true,
     rollupOptions: {
-      // 外部化依赖，避免打包进库
       external: [
         "vue",
+        /^vue\//,
         "element-plus",
+        /^element-plus\//,
         "@smallbrother/utils",
-        // 确保所有 workspace 包都被外部化
         /^@smallbrother\//
       ],
       output: {
-        preserveModules: true,
-        preserveModulesRoot: "src",
         entryFileNames: "[name].mjs",
-        chunkFileNames: "[name].mjs",
-        assetFileNames: asset => {
-          // 组件样式 → 与组件同目录
-          if (asset.name?.endsWith(".css")) {
-            return "[name].css"
+        chunkFileNames: "chunks/[name]-[hash].mjs",
+        assetFileNames: assetInfo => {
+          if (assetInfo.name?.endsWith(".css")) {
+            return "[name][extname]"
           }
-          // 其他资源
-          return "assets/[name][ext]"
+
+          return "assets/[name][extname]"
         },
-        // 启用 tree-shaking
         exports: "named"
       },
-      // 优化：tree-shaking 配置
       treeshake: {
         preset: "recommended",
         moduleSideEffects: false,
@@ -70,24 +194,18 @@ export default defineConfig({
         tryCatchDeoptimization: false
       }
     },
-
-    // 生成 sourcemap
     sourcemap: false,
     target: "ES2020",
-    // 优化：模块解析
     modulePreload: {
       polyfill: false
     }
   },
-  // 优化：解析配置增强
   resolve: {
     alias: {
-      "@": resolve(__dirname, "src"),
-      "@types": resolve(__dirname, "src/types")
+      "@": resolve(rootDir, "src"),
+      "@types": resolve(rootDir, "src/types")
     },
-    // 优化：扩展名解析
     extensions: [".js", ".ts", ".jsx", ".tsx", ".vue", ".json", ".mjs"],
-    // 优化：条件导出支持
     conditions: ["import", "module", "browser", "default"]
   }
 })

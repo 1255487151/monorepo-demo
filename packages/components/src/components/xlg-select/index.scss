@@ -1,0 +1,11 @@
+.xlg-select {
+  width: var(--xlg-select-width, 100%);
+}
+
+.xlg-select-popper {
+  --xlg-select-dropdown-padding-y: 4px;
+
+  .el-select-dropdown__list {
+    padding-block: var(--xlg-select-dropdown-padding-y);
+  }
+}

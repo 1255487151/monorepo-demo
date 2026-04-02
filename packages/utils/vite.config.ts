@@ -1,10 +1,9 @@
-import { defineConfig } from "vite"
 import { resolve } from "path"
+import { defineConfig } from "vite"
 import dts from "vite-plugin-dts"
 
 export default defineConfig({
   plugins: [
-    // 自动生成 TypeScript 类型声明文件
     dts({
       include: ["src/**/*"],
       exclude: ["node_modules", "dist"],
@@ -23,12 +22,11 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true,
     rollupOptions: {
-      external: [],
       output: {
         exports: "named"
       }
     },
-    target: "esnext",
+    target: "ES2020",
     minify: false
   },
   resolve: {
