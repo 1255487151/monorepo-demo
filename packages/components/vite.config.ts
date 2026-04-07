@@ -4,6 +4,7 @@ import vue from "@vitejs/plugin-vue"
 import { compile } from "sass"
 import { defineConfig, type Plugin } from "vite"
 import dts from "vite-plugin-dts"
+import { getAllElementPlusStyleImports } from "./src/style-deps"
 
 type ComponentEntry = {
   name: string
@@ -51,6 +52,7 @@ const componentEntries = getComponentEntries()
 function createLibraryEntries() {
   const entries: Record<string, string> = {
     index: resolve(srcDir, "index.ts"),
+    plugin: resolve(srcDir, "plugin.ts"),
     "components/index": resolve(componentsDir, "index.ts"),
     "style/index": resolve(styleDir, "index.ts")
   }
@@ -67,32 +69,6 @@ function compileScss(filePath: string) {
     style: "compressed",
     loadPaths: [srcDir]
   }).css
-}
-
-function componentStyleVirtualModule(components: ComponentEntry[]): Plugin {
-  const virtualId = "virtual:xlg-component-styles"
-  const resolvedVirtualId = `\0${virtualId}`
-
-  return {
-    name: "xlg-component-style-virtual-module",
-    resolveId(id) {
-      if (id === virtualId) {
-        return resolvedVirtualId
-      }
-
-      return null
-    },
-    load(id) {
-      if (id !== resolvedVirtualId) {
-        return null
-      }
-
-      return components
-        .filter(component => component.styleFile)
-        .map(component => `import ${JSON.stringify(component.styleFile)}`)
-        .join("\n")
-    }
-  }
 }
 
 function emitLibraryCssAssets(components: ComponentEntry[]): Plugin {
@@ -136,11 +112,31 @@ function emitLibraryCssAssets(components: ComponentEntry[]): Plugin {
   }
 }
 
+function rewriteRuntimeStyleEntries(): Plugin {
+  return {
+    name: "xlg-rewrite-runtime-style-entries",
+    generateBundle(_options, bundle) {
+      const styleEntry = bundle["style/index.mjs"]
+
+      if (styleEntry?.type === "chunk") {
+        const imports = ["./index.css", ...getAllElementPlusStyleImports()]
+        styleEntry.code = `${imports.map(importPath => `import ${JSON.stringify(importPath)};`).join("\n")}\n\nexport {};\n`
+      }
+
+      const pluginEntry = bundle["plugin.mjs"]
+
+      if (pluginEntry?.type === "chunk") {
+        pluginEntry.code = `import "./style/index.mjs";\n${pluginEntry.code}`
+      }
+    }
+  }
+}
+
 export default defineConfig({
   plugins: [
     vue(),
-    componentStyleVirtualModule(componentEntries),
     emitLibraryCssAssets(componentEntries),
+    rewriteRuntimeStyleEntries(),
     dts({
       include: ["src/**/*.ts", "src/**/*.vue"],
       exclude: ["node_modules/**", "dist/**", "**/*.test.ts", "**/*.spec.ts"],

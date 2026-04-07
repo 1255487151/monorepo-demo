@@ -11,6 +11,13 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     },
+    "./plugin": {
+      "types": "./dist/plugin.d.ts",
+      "import": "./dist/plugin.mjs"
+    },
+    "./style": {
+      "import": "./dist/style/index.mjs"
+    },
     "./style.css": "./dist/style/index.css",
     "./components": {
       "types": "./dist/components/index.d.ts",
@@ -27,7 +34,9 @@
     "README.md"
   ],
   "sideEffects": [
-    "**/*.css"
+    "**/*.css",
+    "dist/plugin.mjs",
+    "dist/style/index.mjs"
   ],
   "scripts": {
     "dev": "vite build --watch",

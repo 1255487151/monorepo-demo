@@ -1,3 +1,5 @@
+import { getComponentStyleSideEffects } from "../style-deps"
+
 export function resolveComponents(prefix = "Xlg", libraryName = "@smallbrother/components") {
   return (name: string) => {
     if (!name.startsWith(prefix)) return
@@ -9,7 +11,7 @@ export function resolveComponents(prefix = "Xlg", libraryName = "@smallbrother/c
     return {
       name,
       from: `${libraryName}/components`,
-      sideEffects: [`${libraryName}/components/${componentDir}/index.css`]
+      sideEffects: getComponentStyleSideEffects(componentDir, libraryName)
     }
   }
 }
