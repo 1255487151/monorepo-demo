@@ -18,8 +18,6 @@ pnpm add @smallbrother/components element-plus
 import { createApp } from "vue"
 import ElementPlus from "element-plus"
 import SmallBrotherComponents from "@smallbrother/components"
-import "@smallbrother/components/style.css"
-import "element-plus/dist/index.css"
 
 const app = createApp(App)
 
@@ -27,11 +25,21 @@ app.use(ElementPlus)
 app.use(SmallBrotherComponents)
 ```
 
-### Named import
+The root entry now auto-loads SmallBrother and dependent Element Plus styles when you install the plugin.
+
+### Named import from root
 
 ```ts
 import { XlgSelect } from "@smallbrother/components"
-import "@smallbrother/components/style.css"
+```
+
+Importing from the root entry also loads the library style runtime. Use this when you want the convenient all-in-one entry.
+
+### On-demand import
+
+```ts
+import { XlgSelect } from "@smallbrother/components/components"
+import "@smallbrother/components/components/xlg-select/index.css"
 ```
 
 ### Template example
@@ -52,6 +60,51 @@ const options: OptionItems[] = [
   { label: "Option B", value: "b" }
 ]
 </script>
+```
+
+### Grouped options
+
+```vue
+<template>
+  <xlg-select v-model="value" :options="groupedOptions" placeholder="Please select" />
+</template>
+
+<script setup lang="ts">
+import { ref } from "vue"
+import { XlgSelect, type OptionItems } from "@smallbrother/components"
+
+const value = ref("")
+
+const groupedOptions: OptionItems[] = [
+  {
+    label: "Group A",
+    options: [
+      { label: "Option A-1", value: "a-1" },
+      { label: "Option A-2", value: "a-2" }
+    ]
+  },
+  {
+    label: "Group B",
+    options: [
+      { label: "Option B-1", value: "b-1" },
+      { label: "Option B-2", value: "b-2", disabled: true }
+    ]
+  }
+]
+</script>
+```
+
+### Custom slot mode
+
+When you need more custom rendering, pass the default slot directly. Once the default slot exists, `XlgSelect` will stop auto-rendering `options`.
+
+```vue
+<xlg-select v-model="value" placeholder="Please select">
+  <el-option label="Custom A" value="a" />
+  <el-option-group label="Custom Group">
+    <el-option label="Custom B-1" value="b-1" />
+  </el-option-group>
+</xlg-select>
 ```
 
 ## Styling
@@ -92,3 +145,8 @@ import { resolveComponents } from "@smallbrother/components"
 ```
 
 `resolveComponents()` maps `Xlg*` components to `@smallbrother/components/components` and appends `components/<name>/index.css` as the side effect style path.
+
+## Breaking change
+
+- `@smallbrother/components/plugin` has been removed.
+- Use `@smallbrother/components` for global `app.use(...)`.

@@ -5,18 +5,31 @@
     :class="selectClass"
     :popper-class="popperClass"
   >
-    <el-option
-      v-for="item in props.options"
-      :key="getOptionKey(item)"
-      v-bind="getOptionProps(item)"
-    />
+    <slot v-if="hasDefaultSlot" />
+
+    <template v-else>
+      <template v-for="(item, index) in props.options" :key="getItemKey(item, index)">
+        <ElOptionGroup v-if="isOptionGroup(item)" :label="String(item.label)">
+          <template
+            v-for="option in item.options"
+            :key="`${index}-${String(item.label)}-${String(getOptionKey(option))}`"
+          >
+            <component :is="ElOption" v-bind="getOptionProps(option)" />
+          </template>
+        </ElOptionGroup>
+
+        <template v-else>
+          <component :is="ElOption" v-bind="getOptionProps(item)" />
+        </template>
+      </template>
+    </template>
   </el-select>
 </template>
 
 <script lang="ts" setup>
-import type { OptionItems } from "../../types"
-import { computed, useAttrs } from "vue"
-import { ElOption, ElSelect } from "element-plus"
+import type { OptionGroupItem, OptionItem, OptionItems } from "../../types"
+import { computed, useAttrs, useSlots } from "vue"
+import { ElOption, ElOptionGroup, ElSelect } from "element-plus"
 
 const props = withDefaults(defineProps<IProps>(), {
   options: () => []
@@ -27,20 +40,22 @@ defineOptions({
   inheritAttrs: false
 })
 
-type ModelValue = string | number | (string | number)[]
+type ModelValue = OptionItem["value"] | OptionItem["value"][]
 
 interface IProps {
   options: OptionItems[]
 }
 
 const modelValue = defineModel<ModelValue>("modelValue", {
-  type: [String, Number, Array],
+  type: [String, Number, Boolean, Object, Array],
   default: ""
 })
 
 const attrs = useAttrs()
+const slots = useSlots()
 
 const selectClass = computed(() => ["xlg-select", attrs["class"]])
+const hasDefaultSlot = computed(() => Boolean(slots["default"]))
 
 const popperClass = computed(() => {
   const customPopperClass = attrs["popper-class"]
@@ -56,7 +71,15 @@ const forwardedAttrs = computed(() => {
   return restAttrs
 })
 
-function getOptionKey(item: OptionItems) {
+function isOptionGroup(item: OptionItems): item is OptionGroupItem {
+  return "options" in item
+}
+
+function getItemKey(item: OptionItems, index: number) {
+  return isOptionGroup(item) ? `group-${index}-${item.label}` : getOptionKey(item)
+}
+
+function getOptionKey(item: OptionItem) {
   if (typeof item.value === "object") {
     return JSON.stringify(item.value)
   }
@@ -68,7 +91,7 @@ function getOptionKey(item: OptionItems) {
   return item.value
 }
 
-function getOptionProps(item: OptionItems): any {
+function getOptionProps(item: OptionItem): any {
   const optionProps: Record<string, unknown> = {
     value: item.value
   }

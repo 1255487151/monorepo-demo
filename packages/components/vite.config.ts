@@ -52,7 +52,6 @@ const componentEntries = getComponentEntries()
 function createLibraryEntries() {
   const entries: Record<string, string> = {
     index: resolve(srcDir, "index.ts"),
-    plugin: resolve(srcDir, "plugin.ts"),
     "components/index": resolve(componentsDir, "index.ts"),
     "style/index": resolve(styleDir, "index.ts")
   }
@@ -123,10 +122,10 @@ function rewriteRuntimeStyleEntries(): Plugin {
         styleEntry.code = `${imports.map(importPath => `import ${JSON.stringify(importPath)};`).join("\n")}\n\nexport {};\n`
       }
 
-      const pluginEntry = bundle["plugin.mjs"]
+      const indexEntry = bundle["index.mjs"]
 
-      if (pluginEntry?.type === "chunk") {
-        pluginEntry.code = `import "./style/index.mjs";\n${pluginEntry.code}`
+      if (indexEntry?.type === "chunk") {
+        indexEntry.code = `import "./style/index.mjs";\n${indexEntry.code}`
       }
     }
   }

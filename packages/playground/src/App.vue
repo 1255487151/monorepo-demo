@@ -12,6 +12,7 @@
         <span>Named Import</span>
         <span>Plugin Install</span>
         <span>Theme Tokens</span>
+        <span>Grouped Options</span>
       </div>
     </section>
 
@@ -112,6 +113,32 @@
           </p>
         </div>
       </article>
+
+      <article class="panel panel--grouped">
+        <div class="panel-head">
+          <p class="panel-kicker">Mode 05</p>
+          <h2>Grouped Options</h2>
+          <p>
+            This block demonstrates the lightweight grouped data mode using
+            <code>{ label, options }</code>
+            while still keeping all native
+            <code>el-select</code>
+            attrs available.
+          </p>
+        </div>
+
+        <div class="panel-demo">
+          <label class="demo-label">Grouped option rendering</label>
+          <XlgSelect
+            v-model="groupedValue"
+            :options="groupedOptions"
+            clearable
+            filterable
+            placeholder="Choose a grouped option"
+          />
+          <p class="demo-value">Current value: {{ formatValue(groupedValue) }}</p>
+        </div>
+      </article>
     </section>
   </main>
 </template>
@@ -129,10 +156,28 @@ const options: OptionItems[] = [
   { label: "Locked batch", value: "locked", disabled: true }
 ]
 
+const groupedOptions = [
+  {
+    label: "North Region",
+    options: [
+      { label: "Beijing HQ", value: "beijing" },
+      { label: "Tianjin Branch", value: "tianjin" }
+    ]
+  },
+  {
+    label: "South Region",
+    options: [
+      { label: "Guangzhou HQ", value: "guangzhou" },
+      { label: "Shenzhen Branch", value: "shenzhen", disabled: true }
+    ]
+  }
+] as unknown as OptionItems[]
+
 const directValue = ref<SelectModelValue>("morning")
 const pluginValue = ref<SelectModelValue>("noon")
 const themeValue = ref<SelectModelValue>("night")
 const localValue = ref<SelectModelValue>("morning")
+const groupedValue = ref<SelectModelValue>("beijing")
 
 function formatValue(value: SelectModelValue) {
   return Array.isArray(value) ? JSON.stringify(value) : String(value)
@@ -248,6 +293,10 @@ function formatValue(value: SelectModelValue) {
   grid-column: span 6;
 }
 
+.panel--grouped {
+  grid-column: 1 / -1;
+}
+
 .panel-demo {
   display: grid;
   gap: 0.85rem;
@@ -281,7 +330,8 @@ code {
   .panel--direct,
   .panel--plugin,
   .panel--theme,
-  .panel--local {
+  .panel--local,
+  .panel--grouped {
     grid-column: 1 / -1;
   }
 }
