@@ -1,7 +1,8 @@
 import { componentDirToExportName } from "./component-name"
 
 export const componentElementPlusStyleDeps = {
-  "xlg-select": ["select", "option"]
+  "xlg-select": ["select", "option"],
+  "xlg-table": ["table", "table-column", "pagination", "loading"]
 } as const satisfies Record<string, readonly string[]>
 
 export { componentDirToExportName }

@@ -1,0 +1,31 @@
+.xlg-table-wrapper {
+  --xlg-table-bg: #fff;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--xlg-table-bg);
+}
+
+.xlg-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.xlg-table-container {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.xlg-table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: 16px;
+}
