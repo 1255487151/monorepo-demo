@@ -1,6 +1,10 @@
+import { componentDirToExportName } from "./component-name"
+
 export const componentElementPlusStyleDeps = {
   "xlg-select": ["select", "option"]
 } as const satisfies Record<string, readonly string[]>
+
+export { componentDirToExportName }
 
 export function getElementPlusStyleImports(componentDir: string) {
   return [

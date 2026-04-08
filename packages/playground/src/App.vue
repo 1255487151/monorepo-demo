@@ -20,12 +20,12 @@
       <article class="panel panel--direct">
         <div class="panel-head">
           <p class="panel-kicker">Mode 01</p>
-          <h2>Named Import</h2>
+          <h2>Components Entry</h2>
           <p>
             This block imports
             <code>XlgSelect</code>
             directly from
-            <code>@smallbrother/components</code>
+            <code>@smallbrother/components/components</code>
             .
           </p>
         </div>
@@ -145,7 +145,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import { XlgSelect, type OptionItems } from "@smallbrother/components"
+import { XlgSelect, type OptionItems } from "@smallbrother/components/components"
 
 type SelectModelValue = string | number | (string | number)[]
 

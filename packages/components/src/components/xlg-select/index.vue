@@ -40,7 +40,7 @@ defineOptions({
   inheritAttrs: false
 })
 
-type ModelValue = OptionItem["value"] | OptionItem["value"][]
+type ModelValue = OptionItem["value"] | Array<OptionItem["value"]>
 
 interface IProps {
   options: OptionItems[]

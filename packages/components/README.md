@@ -25,22 +25,23 @@ app.use(ElementPlus)
 app.use(SmallBrotherComponents)
 ```
 
-The root entry now auto-loads SmallBrother and dependent Element Plus styles when you install the plugin.
+The root entry auto-loads SmallBrother and dependent Element Plus styles when you install the plugin.
 
-### Named import from root
-
-```ts
-import { XlgSelect } from "@smallbrother/components"
-```
-
-Importing from the root entry also loads the library style runtime. Use this when you want the convenient all-in-one entry.
-
-### On-demand import
+### Named import from components entry
 
 ```ts
 import { XlgSelect } from "@smallbrother/components/components"
-import "@smallbrother/components/components/xlg-select/index.css"
 ```
+
+Importing from the components entry auto-loads the component style and dependent Element Plus styles.
+
+### Deep component import
+
+```ts
+import XlgSelect from "@smallbrother/components/components/xlg-select"
+```
+
+Deep component imports also auto-load component styles.
 
 ### Template example
 
@@ -51,7 +52,7 @@ import "@smallbrother/components/components/xlg-select/index.css"
 
 <script setup lang="ts">
 import { ref } from "vue"
-import { XlgSelect, type OptionItems } from "@smallbrother/components"
+import { XlgSelect, type OptionItems } from "@smallbrother/components/components"
 
 const value = ref("")
 
@@ -71,7 +72,7 @@ const options: OptionItems[] = [
 
 <script setup lang="ts">
 import { ref } from "vue"
-import { XlgSelect, type OptionItems } from "@smallbrother/components"
+import { XlgSelect, type OptionItems } from "@smallbrother/components/components"
 
 const value = ref("")
 
@@ -141,12 +142,14 @@ Element Plus theme variables are controlled by the consumer app. XLG only expose
 ## Auto import resolver
 
 ```ts
-import { resolveComponents } from "@smallbrother/components"
+import { resolveComponents } from "@smallbrother/components/resolver"
 ```
 
-`resolveComponents()` maps `Xlg*` components to `@smallbrother/components/components` and appends `components/<name>/index.css` as the side effect style path.
+`resolveComponents()` maps `Xlg*` components to `@smallbrother/components/components`. The components entry already pulls in each component's runtime style imports, so no extra side-effect style config is required.
 
 ## Breaking change
 
-- `@smallbrother/components/plugin` has been removed.
+- `@smallbrother/components` no longer exports components or resolver helpers.
 - Use `@smallbrother/components` for global `app.use(...)`.
+- Use `@smallbrother/components/components` or `@smallbrother/components/components/*` for component imports.
+- Use `@smallbrother/components/resolver` for `resolveComponents()`.

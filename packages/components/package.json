@@ -1,6 +1,6 @@
 {
   "name": "@smallbrother/components",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Vue 3 组件库 - 基于 Element Plus",
   "type": "module",
   "private": false,
@@ -11,10 +11,6 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     },
-    "./style": {
-      "import": "./dist/style/index.mjs"
-    },
-    "./style.css": "./dist/style/index.css",
     "./components": {
       "types": "./dist/components/index.d.ts",
       "import": "./dist/components/index.mjs"
@@ -23,7 +19,15 @@
       "types": "./dist/components/*/index.d.ts",
       "import": "./dist/components/*/index.mjs"
     },
-    "./components/*/index.css": "./dist/components/*/index.css"
+    "./resolver": {
+      "types": "./dist/utils/resolver.d.ts",
+      "import": "./dist/utils/resolver.mjs"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.mjs"
+    },
+    "./style.css": "./dist/style/index.css"
   },
   "files": [
     "dist",
@@ -32,7 +36,9 @@
   "sideEffects": [
     "**/*.css",
     "dist/index.mjs",
-    "dist/style/index.mjs"
+    "dist/style/index.mjs",
+    "dist/components/index.mjs",
+    "dist/components/*/index.mjs"
   ],
   "scripts": {
     "dev": "vite build --watch",
