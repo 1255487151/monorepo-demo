@@ -16,6 +16,7 @@ pnpm add @smallbrother/components element-plus
 ### Plugin install
 
 ```ts
+import "@smallbrother/components/style"
 import { createApp } from "vue"
 import ElementPlus from "element-plus"
 import SmallBrotherComponents from "@smallbrother/components"
@@ -26,7 +27,7 @@ app.use(ElementPlus)
 app.use(SmallBrotherComponents)
 ```
 
-The root entry auto-loads SmallBrother and dependent Element Plus styles when you install the plugin.
+The root entry is a pure plugin entry. For global installation, import `@smallbrother/components/style` explicitly so the library CSS and the Element Plus styles used by the library are both loaded.
 
 ### Named import from components entry
 
@@ -73,7 +74,7 @@ const options: OptionItems[] = [
 If you do not use auto import with `resolveComponents()`, add styles yourself:
 
 ```ts
-import "@smallbrother/components/style.css"
+import "@smallbrother/components/style"
 ```
 
 Or import a single component stylesheet:
@@ -83,6 +84,12 @@ import "@smallbrother/components/components/xlg-table/index.css"
 ```
 
 When using single component CSS files, you are also responsible for any Element Plus styles that component needs.
+
+If you only want the library CSS without Element Plus dependency styles, import:
+
+```ts
+import "@smallbrother/components/style.css"
+```
 
 ### Grouped options
 
@@ -171,7 +178,8 @@ import { resolveComponents } from "@smallbrother/components/resolver"
 ## Breaking change
 
 - `@smallbrother/components` no longer exports components or resolver helpers.
-- Use `@smallbrother/components` for global `app.use(...)`.
+- `@smallbrother/components` is now a pure plugin entry and no longer auto-loads styles.
+- Use `@smallbrother/components/style` together with `@smallbrother/components` for global `app.use(...)`.
 - `@smallbrother/components/components` and `@smallbrother/components/components/*` are pure component entries and no longer auto-load styles.
 - Use `@smallbrother/components/components` or `@smallbrother/components/components/*` for component imports.
 - Use `@smallbrother/components/resolver` for `resolveComponents()`.

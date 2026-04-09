@@ -26,6 +26,14 @@ export function getComponentStyleSideEffects(
   ]
 }
 
+/**
+ * Return the full style side effects for global installation.
+ * Includes the library CSS entry and all Element Plus styles used by the library.
+ */
+export function getLibraryStyleSideEffects(libraryName = "@smallbrother/components") {
+  return [...new Set([`${libraryName}/style.css`, ...getAllElementPlusStyleImports()])]
+}
+
 export function getAllElementPlusStyleImports() {
   return [
     ...new Set(

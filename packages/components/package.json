@@ -11,6 +11,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     },
+    "./style": {
+      "import": "./dist/style/index.mjs"
+    },
     "./components": {
       "types": "./dist/components/index.d.ts",
       "import": "./dist/components/index.mjs"
@@ -36,7 +39,6 @@
   ],
   "sideEffects": [
     "**/*.css",
-    "dist/index.mjs",
     "dist/style/index.mjs"
   ],
   "scripts": {

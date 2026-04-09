@@ -23,12 +23,6 @@ export function rewriteRuntimeStyleEntries(componentEntries: ComponentEntry[]): 
         const imports = ["./index.css", ...getAllElementPlusStyleImports()]
         styleEntry.code = `${imports.map(importPath => `import ${JSON.stringify(importPath)};`).join("\n")}\n\nexport {};\n`
       }
-
-      const indexEntry = bundle["index.mjs"]
-
-      if (indexEntry?.type === "chunk") {
-        indexEntry.code = `import "./style/index.mjs";\n${indexEntry.code}`
-      }
     }
   }
 }
