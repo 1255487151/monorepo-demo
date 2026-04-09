@@ -19,6 +19,9 @@
     "build:components": "pnpm -F @smallbrother/components run build",
     "build:directives": "pnpm -F @smallbrother/directives run build",
     "build:utils": "pnpm -F @smallbrother/utils run build",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
     "clean": "pnpm -r run clean",
     "prepare": "husky",
     "commit": "git-cz",
@@ -53,6 +56,7 @@
     "lint-staged": "^16.3.2",
     "prettier": "^3.8.1",
     "typescript": "^5.9.3",
+    "vitepress": "^1.6.4",
     "vite-plugin-dts": "^4.5.4",
     "volta": "^0.0.0",
     "vue-eslint-parser": "^10.4.0"
