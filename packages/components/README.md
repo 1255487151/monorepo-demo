@@ -9,6 +9,7 @@ pnpm add @smallbrother/components element-plus
 ```
 
 `vue` and `element-plus` stay in the consumer app as peer dependencies.
+`@smallbrother/directives` is installed transitively by `@smallbrother/components`, so `XlgTable` users do not need to add or register it separately.
 
 ## Usage
 
@@ -33,7 +34,7 @@ The root entry auto-loads SmallBrother and dependent Element Plus styles when yo
 import { XlgSelect } from "@smallbrother/components/components"
 ```
 
-Importing from the components entry auto-loads the component style and dependent Element Plus styles.
+The components entry is now a pure logic entry. If you import components this way, bring styles in yourself.
 
 ### Deep component import
 
@@ -41,7 +42,7 @@ Importing from the components entry auto-loads the component style and dependent
 import XlgSelect from "@smallbrother/components/components/xlg-select"
 ```
 
-Deep component imports also auto-load component styles.
+Deep component imports are also pure logic entries.
 
 ### Template example
 
@@ -62,6 +63,26 @@ const options: OptionItems[] = [
 ]
 </script>
 ```
+
+### XlgTable auto height
+
+`XlgTable` wires `tableAutoHeightDirective` internally. When you install or import `@smallbrother/components`, the table can use auto height without an extra `app.use(@smallbrother/directives)`.
+
+### Manual on-demand styles
+
+If you do not use auto import with `resolveComponents()`, add styles yourself:
+
+```ts
+import "@smallbrother/components/style.css"
+```
+
+Or import a single component stylesheet:
+
+```ts
+import "@smallbrother/components/components/xlg-table/index.css"
+```
+
+When using single component CSS files, you are also responsible for any Element Plus styles that component needs.
 
 ### Grouped options
 
@@ -145,11 +166,12 @@ Element Plus theme variables are controlled by the consumer app. XLG only expose
 import { resolveComponents } from "@smallbrother/components/resolver"
 ```
 
-`resolveComponents()` maps `Xlg*` components to `@smallbrother/components/components`. The components entry already pulls in each component's runtime style imports, so no extra side-effect style config is required.
+`resolveComponents()` maps `Xlg*` components to `@smallbrother/components/components` and returns standard `sideEffects`, so `unplugin-vue-components` can inject both component imports and required styles automatically.
 
 ## Breaking change
 
 - `@smallbrother/components` no longer exports components or resolver helpers.
 - Use `@smallbrother/components` for global `app.use(...)`.
+- `@smallbrother/components/components` and `@smallbrother/components/components/*` are pure component entries and no longer auto-load styles.
 - Use `@smallbrother/components/components` or `@smallbrother/components/components/*` for component imports.
 - Use `@smallbrother/components/resolver` for `resolveComponents()`.

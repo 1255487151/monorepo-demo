@@ -34,29 +34,13 @@ interface ThemeMetrics {
   fontSizeBase: number
 }
 
-const THEME_FALLBACKS: ThemeMetrics = {
+const THEME_METRICS: ThemeMetrics = {
   spacingMd: 16,
   spacingXl: 32,
-  fontSizeBase: 14
+  fontSizeBase: 12
 }
 
-const parsePixelValue = (value: string | null | undefined, fallback: number) => {
-  const parsed = Number.parseFloat(String(value || "").trim())
-  return Number.isFinite(parsed) ? parsed : fallback
-}
-
-const getThemeMetric = (cssVariable: string, fallback: number) => {
-  if (typeof window === "undefined") return fallback
-
-  const styles = window.getComputedStyle(document.documentElement)
-  return parsePixelValue(styles.getPropertyValue(cssVariable), fallback)
-}
-
-const getThemeMetrics = (): ThemeMetrics => ({
-  spacingMd: getThemeMetric("--spacing-md", THEME_FALLBACKS.spacingMd),
-  spacingXl: getThemeMetric("--spacing-xl", THEME_FALLBACKS.spacingXl),
-  fontSizeBase: getThemeMetric("--font-size-base", THEME_FALLBACKS.fontSizeBase)
-})
+const getThemeMetrics = (): ThemeMetrics => THEME_METRICS
 
 const getDefaultOptions = (): Required<TableAutoHeightOptions> => {
   const themeMetrics = getThemeMetrics()
@@ -74,7 +58,10 @@ const getDefaultOptions = (): Required<TableAutoHeightOptions> => {
 const normalizeOptions = (
   value: TableAutoHeightBinding
 ): Required<TableAutoHeightOptions> | null => {
-  if (value === false || value === null) return null
+  if (value === false || value === null) {
+    return null
+  }
+
   return { ...getDefaultOptions(), ...(value || {}) }
 }
 
@@ -92,7 +79,9 @@ const getContainerAvailableHeight = (
   options: Required<TableAutoHeightOptions>
 ) => {
   const container = findTableContainer(tableElement)
-  if (!container) return null
+  if (!container) {
+    return null
+  }
 
   const tableRect = tableElement.getBoundingClientRect()
   const containerRect = container.getBoundingClientRect()
@@ -108,10 +97,13 @@ const findPaginationAnchor = (tableElement: HTMLElement) => {
       child.classList.contains("xlg-table-footer")
     ) as HTMLElement | undefined
 
-    if (footer) return footer
+    if (footer) {
+      return footer
+    }
   }
 
   let current: HTMLElement | null = tableElement.parentElement
+
   while (current) {
     const pagination = current.querySelector(
       ".el-pagination, [class*='pagination']"
@@ -129,7 +121,9 @@ const findPaginationAnchor = (tableElement: HTMLElement) => {
 
 const getFallbackPaginationOffset = (tableElement: HTMLElement, themeMetrics: ThemeMetrics) => {
   const anchor = findPaginationAnchor(tableElement)
-  if (!anchor) return 0
+  if (!anchor) {
+    return 0
+  }
 
   const tableRect = tableElement.getBoundingClientRect()
   const anchorRect = anchor.getBoundingClientRect()
@@ -176,7 +170,9 @@ const createResizeObserver = (
   element: HTMLElement,
   callback: () => void
 ): ResizeObserver | null => {
-  if (!("ResizeObserver" in window)) return null
+  if (!("ResizeObserver" in window)) {
+    return null
+  }
 
   const observer = new ResizeObserver(() => {
     callback()
@@ -196,7 +192,9 @@ const createState = (): TableAutoHeightState => ({
 
 const destroyAutoHeight = (tableElement: TableAutoHeightElement, resetHeight = true) => {
   const state = tableElement._tableAutoHeightState
-  if (!state) return
+  if (!state) {
+    return
+  }
 
   if (state.timeoutId !== null) {
     clearTimeout(state.timeoutId)
@@ -240,6 +238,7 @@ const setupAutoHeight = (
       if (options) {
         setTableHeight(tableElement, options)
       }
+
       state.timeoutId = null
     }, 100)
   }
@@ -264,7 +263,7 @@ export const tableAutoHeightDirective: ObjectDirective<
 > = {
   mounted(el, binding: DirectiveBinding<TableAutoHeightBinding>) {
     if (!el.classList.contains("el-table")) {
-      console.warn("v-table-auto-height 指令只能用于 el-table 元素")
+      console.warn("v-table-auto-height directive can only be used on el-table elements")
       return
     }
 
@@ -277,7 +276,9 @@ export const tableAutoHeightDirective: ObjectDirective<
   },
 
   updated(el, binding: DirectiveBinding<TableAutoHeightBinding>) {
-    if (!el._tableAutoHeightState) return
+    if (!el._tableAutoHeightState) {
+      return
+    }
 
     const options = normalizeOptions(binding.value)
     if (!options) {

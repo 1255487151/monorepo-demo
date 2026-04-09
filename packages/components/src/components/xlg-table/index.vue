@@ -56,6 +56,7 @@
 import { computed, ref, useAttrs } from "vue"
 import type { CSSProperties } from "vue"
 import { ElPagination, ElTable, ElTableColumn } from "element-plus"
+import { tableAutoHeightDirective } from "@smallbrother/directives"
 import type {
   TableColumn,
   XlgTableAutoHeightOptions,
@@ -73,7 +74,7 @@ const props = withDefaults(defineProps<XlgTableProps>(), {
     watchParent: true
   }),
   loading: false,
-  loadingText: "加载中...",
+  loadingText: "Loading...",
   background: "#fff"
 })
 
@@ -85,6 +86,7 @@ defineOptions({
 })
 
 const attrs = useAttrs()
+const vTableAutoHeight = tableAutoHeightDirective
 
 type TableRefInstance = {
   clearSelection?: () => void
@@ -111,7 +113,7 @@ const defaultPaginationConfig = {
 }
 
 const wrapperStyle = computed<CSSProperties>(() => ({
-  "--xlg-table-bg": props.background
+  background: props.background
 }))
 
 const tableData = computed(() => props.data)

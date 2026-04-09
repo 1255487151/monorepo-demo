@@ -1,7 +1,7 @@
 {
   "name": "@smallbrother/directives",
   "version": "1.0.0",
-  "description": "Vue 3 指令库",
+  "description": "Vue 3 directives for SmallBrother UI",
   "type": "module",
   "private": false,
   "main": "./dist/index.cjs",

@@ -1,222 +1,328 @@
-# XlgTable 迁移说明
+# XlgTable 实现规范
 
-## 目标
+## 1. 目标与当前状态
 
-将本地项目 `/Users/muyangyang/code/electron-init` 中的表格组件和自动高度指令迁移到当前 monorepo：
+本文档用于约束当前 monorepo 中 `XlgTable` 相关能力的实现方向，不再作为旧项目迁移清单使用。
 
-- 组件来源：
-  - `/Users/muyangyang/code/electron-init/src/components/xlg-ui/XlgTable.vue`
-  - `/Users/muyangyang/code/electron-init/src/components/xlg-ui/types/table.ts`
-- 指令来源：
-  - `/Users/muyangyang/code/electron-init/src/directive/table-auto-height.ts`
-  - `/Users/muyangyang/code/electron-init/src/directive/index.ts`
+当前仓库中的主要落点如下：
 
-最终产物要求：
+- `XlgTable` 组件目录：[packages/components/src/components/xlg-table](d:/monorepo/monorepo-demo/packages/components/src/components/xlg-table)
+- 自动高度指令目录：[packages/directives/src/table-auto-height.ts](d:/monorepo/monorepo-demo/packages/directives/src/table-auto-height.ts)
+- Element Plus 样式依赖声明：[packages/components/src/utils/style-deps.ts](d:/monorepo/monorepo-demo/packages/components/src/utils/style-deps.ts)
 
-- `XlgTable` 进入 `@smallbrother/components`
-- 组件内的 UnoCSS class 全部转换为本地 `scss`
-- 组件导出和 `xlg-select` 保持一致的组件库组织方式
-- `table-auto-height` 从业务项目中拆出，放入 monorepo 新建的 directive 库
-- 不考虑 `playground`，后续会删除
+本规范统一以下方向：
 
-## 现状分析
+1. `XlgTable` 不依赖 UnoCSS，不读取 UnoCSS 定义的主题变量。
+2. 自动高度逻辑改为固定常量方案，不再读取 CSS 变量。
+3. `XlgTable` 在组件内部接入自动高度指令，外层项目无需额外注册。
+4. 根目录 `pnpm run version` 与 `pnpm run release` 按“单库优先、按影响传播”的策略执行。
+5. 仓库不再保留 `packages/playground`，也不再将其作为默认联调入口。
 
-### XlgTable 当前结构
+## 2. XlgTable 组件规范
 
-`XlgTable.vue` 当前能力包括：
+### 2.1 组件定位
 
-- 表头区域：`header`、`toolbar` 插槽
-- 表格主体：透传 `el-table` attrs，支持 `beforeColumn`、默认列渲染、`afterColumn`
-- 分页区域：内置 `el-pagination`，同时支持 `footer` 插槽
-- 自动高度：依赖 `v-table-auto-height="directiveAutoHeightOptions"`
-- 暴露方法：`clearSelection`、`toggleRowSelection`、`toggleAllSelection`、`setCurrentRow`、`clearCurrentRow`、`sort`、`clearSort`、`refresh`、`doLayout`
+`XlgTable` 是基于 Element Plus `el-table` 的轻量通用封装，用于统一：
 
-### 当前 UnoCSS 需要转换的类
+- 表格头部插槽结构
+- 列配置渲染
+- 分页区渲染
+- 自动高度能力
+- 常用实例方法暴露
 
-来自 `/Users/muyangyang/code/electron-init/src/components/xlg-ui/XlgTable.vue`：
+### 2.2 需要保留的能力
 
-- `flex`
-- `flex-col`
-- `h-full`
-- `w-full`
-- `bg-bg-page`
-- `mb-4`
-- `flex-between`
-- `flex-wrap`
-- `gap-3`
-- `flex-1`
-- `min-h-0`
-- `overflow-hidden`
-- `py-4`
-- `flex-center`
+保留以下插槽：
 
-迁移到组件库时，需要改成语义化类名配合 `scss`，不要保留 UnoCSS 依赖。
+- `header`
+- `toolbar`
+- `beforeColumn`
+- `default`
+- `afterColumn`
+- `footer`
 
-### table-auto-height 指令当前职责
+保留以下 props：
 
-指令主要完成：
+- `data`
+- `columns`
+- `pagination`
+- `autoHeight`
+- `autoHeightOptions`
+- `loading`
+- `loadingText`
+- `background`
 
-- 读取主题变量 `--spacing-md`、`--spacing-xl`、`--font-size-base`
-- 在 `XlgTable` 容器模式和普通视口模式下动态计算 `el-table` 高度
-- 识别 `.xlg-table-container`、`.xlg-table-wrapper`、`.xlg-table-footer`
+保留以下事件：
+
+- `page-change`
+- `size-change`
+
+保留以下 `defineExpose` 方法：
+
+- `clearSelection`
+- `toggleRowSelection`
+- `toggleAllSelection`
+- `setCurrentRow`
+- `clearCurrentRow`
+- `sort`
+- `clearSort`
+- `refresh`
+- `doLayout`
+
+### 2.3 列渲染规则
+
+- 表格主体继续透传 `el-table` 的 attrs。
+- 默认列渲染基于 `columns`。
+- `columns` 中 `show === false` 的列不渲染。
+- 若列配置包含 `slot`，则通过同名插槽渲染对应列内容。
+- `beforeColumn` 与 `afterColumn` 继续作为扩展列插槽。
+
+### 2.4 分页规则
+
+- 分页由组件内部集成 `el-pagination`。
+- `pagination.showPagination === false` 时隐藏默认分页。
+- 即使关闭分页，只要存在 `footer` 插槽，也应保留 footer 区域。
+
+### 2.5 背景规则
+
+- 组件库不定义全局背景变量。
+- `background` 仅通过组件 props 控制。
+- 默认值为白色 `#fff`。
+- 背景仅作用于 `.xlg-table-wrapper`。
+
+## 3. table-auto-height 指令规范
+
+### 3.1 指令职责
+
+`table-auto-height` 负责根据当前表格所在布局环境，自动计算 `el-table` 高度，并在需要时触发表格重新布局。
+
+保留以下能力：
+
+- 支持绑定类型：`TableAutoHeightOptions | false | null | undefined`
+- 识别 `.xlg-table-container`
+- 识别 `.xlg-table-wrapper`
+- 识别 `.xlg-table-footer`
 - 监听 `window.resize`
-- 使用 `ResizeObserver` 监听 table 和父容器
+- 使用 `ResizeObserver`
 - 自动调用 `doLayout()`
-- 支持 `false | null` 关闭指令
+- 传入 `false | null` 时关闭能力并清理副作用
+- 在非 `el-table` 元素上使用时允许 `console.warn`
 
-这说明该指令已经不是业务页私有逻辑，适合拆成公共 directive 库。
+### 3.2 固定常量规则
 
-## 迁移落点
+`getThemeMetrics()` 不再读取任何 CSS 变量，也不依赖宿主项目主题系统。
 
-### 组件库
+统一固定为：
 
-在 `packages/components/src/components` 下新增：
+- `fontSizeBase = 12`
+- `spacingXl = 32`
+- `spacingMd = 16`
 
-- `xlg-table/index.vue`
-- `xlg-table/index.ts`
-- `xlg-table/index.scss`
-- 如需拆类型，可在组件包内部增加 `xlg-table/types.ts`
+以下旧逻辑全部废弃：
 
-并同步修改：
+- 读取 `--spacing-md`
+- 读取 `--spacing-xl`
+- 读取 `--font-size-base`
 
-- `packages/components/src/components/index.ts`
-- `packages/components/src/utils/style-deps.ts`
+### 3.3 高度计算规则
 
-要求与现有 `xlg-select` 对齐：
+自动高度计算必须是“固定常量 + DOM 结构”的纯逻辑方案：
 
-- 单组件入口文件 `index.ts` 默认导出组件并引入 `index.scss`
-- 聚合出口由 `packages/components/src/components/index.ts` 统一抛出
-- 组件打包后支持：
-  - `import { XlgTable } from "@smallbrother/components/components"`
-  - `import XlgTable from "@smallbrother/components/components/xlg-table"`
-- 不通过根入口 `@smallbrother/components` 做命名导出
+- 优先基于 `.xlg-table-container` 的剩余可用高度计算。
+- 无容器上下文时，回退到视口高度计算。
+- 需要扣减分页区域时，基于 `.xlg-table-footer` 或分页锚点估算。
+- 所有估算默认值都来自代码中的固定常量，而不是主题变量。
 
-### 指令库
+## 4. 组件与指令依赖关系
 
-在 `packages` 下新建一个独立包，建议命名：
+### 4.1 组件内接入
 
-- `packages/directives`
-- 包名：`@smallbrother/directives`
+`XlgTable` 组件内部负责接入 `table-auto-height` 指令能力。
 
-建议结构：
+目标行为如下：
 
-- `packages/directives/package.json`
-- `packages/directives/tsconfig.json`
-- `packages/directives/vite.config.ts`
-- `packages/directives/src/index.ts`
-- `packages/directives/src/table-auto-height.ts`
+- 外层业务项目使用 `XlgTable` 时，不需要再额外注册 `v-table-auto-height`。
+- 外层业务项目使用 `XlgTable` 时，不需要再单独安装或 `app.use(@smallbrother/directives)` 才能获得自动高度能力。
+- `XlgTable` 自身应具备完整自动高度能力。
 
-对外提供一种能力：
+### 4.2 指令库保留策略
 
-- 单独导出指令：
-  - `import { tableAutoHeightDirective } from "@smallbrother/directives"`
+`@smallbrother/directives` 仍然保留，用于非 `XlgTable` 场景的独立指令能力输出。
 
-## 实施要求
+保留方式：
 
-### 1. 迁移 XlgTable 组件
+- 继续单独导出 `tableAutoHeightDirective`
+- 继续支持默认 `install`
+- `XlgTable` 直接依赖并引用这份唯一实现，不再在 `components` 包内复制一份
+- 但它不再是 `XlgTable` 使用方的必需手动前置条件
 
-- 保留现有插槽能力：
-  - `header`
-  - `toolbar`
-  - `beforeColumn`
-  - `default`
-  - `afterColumn`
-  - `footer`
-- 保留现有 props：
-  - `data`
-  - `columns`
-  - `pagination`
-  - `autoHeight`
-  - `autoHeightOptions`
-  - `loading`
-  - `loadingText`
-- 保留现有 emits：
-  - `page-change`
-  - `size-change`
-- 保留现有 `defineExpose` 方法
+## 5. 样式与主题约束
 
-### 2. UnoCSS 改为 SCSS
+### 5.1 UnoCSS 约束
 
-建议样式类保持以下骨架，避免指令查找 DOM 结构失效：
+`XlgTable` 不再依赖以下能力：
+
+- UnoCSS class
+- `bg-bg-page`
+- `virtual:uno.css`
+- 任何 UnoCSS 定义的变量
+
+### 5.2 SCSS 约束
+
+组件仅使用本地 `scss` 与语义化类名，不依赖宿主项目的原子类体系。
+
+推荐保留以下结构类名：
 
 - `.xlg-table-wrapper`
 - `.xlg-table-header`
 - `.xlg-table-container`
 - `.xlg-table-footer`
 
-对应的 `scss` 至少补齐这些布局语义：
+最低布局语义要求：
 
-- wrapper：`display: flex; flex-direction: column; width: 100%; height: 100%;`
-- header：`display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;`
-- container：`flex: 1; min-height: 0; overflow: hidden;`
-- footer：`display: flex; justify-content: center; align-items: center;`
+- wrapper: `display: flex; flex-direction: column; width: 100%; height: 100%`
+- header: `display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap`
+- container: `flex: 1; min-height: 0; overflow: hidden`
+- footer: `display: flex; justify-content: center; align-items: center`
 
-bg-bg-page默认白色,需要改可又外部传入增加一个backgroud属性配置,组件库不定义全局变量
+### 5.3 全局变量约束
 
-### 3. 指令迁移到 directives 包
+组件库不定义以下形式：
 
-`table-auto-height` 迁移时保留现有行为，但要去掉对业务项目目录结构的依赖，只保留对表格 DOM 类名的依赖。
+- 全局背景变量
+- 全局表格主题变量
+- 依赖宿主项目注入的尺寸变量
 
-需要保留的兼容点：
+组件内默认值只允许来自：
 
-- 绑定值类型：`TableAutoHeightOptions | false | null | undefined`
-- 主题变量读取逻辑
-- `ResizeObserver` 监听
-- 禁用时清理内联高度和监听器
-- `el-table` 校验与 `console.warn`
+- props 默认值
+- 本地 `scss`
+- 指令内部固定常量
 
-### 4. 组件和指令的依赖关系
+## 6. 版本发布与维护规范
 
-`XlgTable` 不应在组件内部自己注册 directive。
+### 6.1 根脚本现状
 
-推荐方案：
+根目录保留以下脚本：
 
-- 组件库只负责 `XlgTable` 组件本身
-- 指令库独立提供 `table-auto-height`
-- 使用 `XlgTable` 的项目，需要自行安装 `@smallbrother/directives`
-- 指令组件库默认install使用
+- `pnpm run version`
+- `pnpm run release`
 
-<!-- 如果后续希望组件库默认可用，再单独评估是否在组件库插件 `install` 中桥接注册 directive 库，但这不是本次迁移默认方案。 -->
+当前职责如下：
 
-## 需要同步修改的点
+- `version = npx tsx scripts/version.ts`
+- `release = pnpm run version --publish --push`
 
-### components 包
+`version` 脚本负责：
 
-- `packages/components/src/components/index.ts`
-  - 增加 `XlgTable` 导出
-- `packages/components/src/utils/style-deps.ts`
-  - 为 `xlg-table` 增加 Element Plus 样式依赖
+1. 检查 Git 工作区状态
+2. 扫描 workspace 发布包
+3. 计算版本号
+4. 更新目标包 `package.json`
+5. 更新目标包内部依赖版本
+6. 自动执行 Git commit
+7. 自动创建 tag
+8. 按需 push
+9. 按需 publish
 
-需要根据 `XlgTable` 实际使用到的 Element Plus 组件补齐依赖，至少应覆盖：
+### 6.2 推荐执行顺序
 
-- `table`
-- `table-column`
-- `pagination`
-- `loading`
+发布前统一按以下顺序执行：
 
-如果模板里还直接依赖了按钮等组件，也要一并补齐。
+1. `pnpm run code:check`
+2. `pnpm run build`
+3. 确认工作区干净后执行 `pnpm run version`
+4. 需要实际发布时再执行 `pnpm run release`
 
-### directives 包
+### 6.3 单库发布时的版本联动方案
 
-- 根 `package.json` 的 workspace 不需要额外改，`pnpm-workspace.yaml` 已覆盖 `packages/*`
-- 根脚本后续可以补充：
-  - `build:directives`
-  - `lint:directives`
+单库发布不采用“所有包一起升级”的策略，而采用“按影响面传播”的策略。
 
-## 验收标准
+核心原则：
 
-- `XlgTable` 在组件库内完成迁移并可正常构建
-- `XlgTable` 的样式不再依赖 UnoCSS 或 `virtual:uno.css`
-- `XlgTable` 的导出方式与当前 `xlg-select` 组件组织方式一致
-- `@smallbrother/directives` 可独立构建并导出 `tableAutoHeightDirective`
-- `table-auto-height` 指令迁移后，仍能根据 `.xlg-table-container` 和 `.xlg-table-footer` 正确计算高度
-- 组件和指令拆分后，没有对 `playground` 的依赖
+- 只修改、发布真正发生对外变化的包。
+- 若引用方代码未变，且当前依赖范围仍兼容新版本，则不强制跟随发布。
+- 私有应用包不参与 npm 发布，只做仓库内联调验证。
 
-## 建议的实施顺序
+当前仓库内需要关注的依赖关系：
 
-1. 先创建 `packages/directives`，把 `table-auto-height` 单独迁进来并确保可构建。
-2. 再迁移 `XlgTable` 到 `packages/components/src/components/xlg-table`。
-3. 将 `XlgTable.vue` 中的 UnoCSS class 改成语义化类名，并补 `index.scss`。
-4. 在 `style-deps.ts` 中补 `xlg-table` 的 Element Plus 样式依赖。
-5. 更新 `components/index.ts` 导出，验证组件包构建。
-6. 最后补组件 README 或示例文档，不处理 playground。
+- `@smallbrother/components` 依赖 `@smallbrother/utils`
+- `@smallbrother/directives` 当前不依赖其他内部发布包
+
+场景 A：叶子库单独发布
+
+- 示例：只发布 `@smallbrother/directives`
+- 处理：仅升级并发布当前目标包
+- 其他包不需要跟随升级
+
+场景 B：基础库发布，但引用发布库当前仍兼容
+
+- 示例：`@smallbrother/utils` 发布 `patch` 或 `minor`
+- 若 `@smallbrother/components` 当前无需立刻消费新能力，则不需要立刻发布 `@smallbrother/components`
+
+结论：
+
+- “引用库没更新”时，不一定需要更新它
+- 只要依赖范围兼容，且引用库代码未使用新能力，就可以不发新版
+
+场景 C：基础库发布，且引用发布库必须跟随
+
+- 示例：`@smallbrother/utils` 发生 `major` 变更
+- 或 `@smallbrother/components` 已经依赖新的 API / 修复行为
+- 处理：先发布 `@smallbrother/utils`，再更新并发布 `@smallbrother/components`
+
+场景 D：只改文档、脚本或内部实现，但未影响对外产物
+
+- 不需要发布
+- 只在仓库内提交代码即可
+
+推荐判断顺序：
+
+1. 先确认改动落在哪个包
+2. 判断该包是否为对外发布包
+3. 判断是否有其他发布包依赖它
+4. 判断这些依赖方是否必须消费新版本
+5. 私有应用只做验证，不参与发版
+
+### 6.4 playground 删除维护要求
+
+仓库不再保留 `packages/playground`。
+
+同步要求如下：
+
+- 删除 `packages/playground`
+- 删除根目录脚本中的 `dev:playground`
+- 删除根目录脚本中的 `build:playground`
+- 不再把 `playground` 作为组件库发布后的默认验证入口
+- 后续联调统一通过真实接入项目或更轻量的验证方式完成
+
+### 6.5 根脚本优化目标
+
+为支持上述发布策略，根脚本后续需要保持以下目标：
+
+- `pnpm run version -p <package>` 默认只升级目标发布包
+- 不再默认把所有依赖方一起升级
+- 根包不参与版本升级与发布
+- 私有包不参与发布
+- 输出清晰的版本摘要、tag 摘要与 publish 摘要
+
+### 6.6 验收标准
+
+完成收口后，应满足以下标准：
+
+- 文档中不再出现 UnoCSS 变量、主题 CSS 变量读取、宿主项目必须注册指令的旧规则
+- `background` 的说明为：保留 props，默认白底，不定义全局变量
+- 自动高度规则明确固定值：`fontSizeBase = 12`、`spacingXl = 32`
+- `XlgTable` 与 `@smallbrother/directives` 的关系为“组件内接入，外层无需注册”
+- `pnpm run version` / `pnpm run release` 的说明与脚本实现一致
+- 单库发布的联动规则明确回答“引用库没更新时是否需要更新”
+- 仓库中不再保留 `packages/playground` 及其根脚本入口
+
+## 7. 后续代码调整顺序
+
+后续如继续扩展或回归调整，建议按以下顺序执行：
+
+1. 先调整自动高度固定常量与高度计算逻辑
+2. 再调整 `XlgTable` 内部的指令接入方式
+3. 再校正 `XlgTable` 样式与 props 默认值
+4. 最后处理版本脚本、发布策略与仓库维护收尾

@@ -1,9 +1,5 @@
 import type { Plugin } from "vite"
-import {
-  componentDirToExportName,
-  getAllElementPlusStyleImports,
-  getElementPlusStyleImports
-} from "../src/utils"
+import { componentDirToExportName, getAllElementPlusStyleImports } from "../src/utils"
 import type { ComponentEntry } from "./types"
 
 export function rewriteRuntimeStyleEntries(componentEntries: ComponentEntry[]): Plugin {
@@ -19,18 +15,6 @@ export function rewriteRuntimeStyleEntries(componentEntries: ComponentEntry[]): 
 
       if (componentsIndexEntry?.type === "chunk") {
         componentsIndexEntry.code = `${componentExportLines.join("\n")}\n`
-      }
-
-      for (const component of componentEntries) {
-        const componentEntry = bundle[`components/${component.name}/index.mjs`]
-
-        if (componentEntry?.type !== "chunk") {
-          continue
-        }
-
-        const imports = ["./index.css", ...getElementPlusStyleImports(component.name)]
-
-        componentEntry.code = `${imports.map(importPath => `import ${JSON.stringify(importPath)};`).join("\n")}\n\n${componentEntry.code}`
       }
 
       const styleEntry = bundle["style/index.mjs"]

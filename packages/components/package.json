@@ -19,6 +19,7 @@
       "types": "./dist/components/*/index.d.ts",
       "import": "./dist/components/*/index.mjs"
     },
+    "./components/*/index.css": "./dist/components/*/index.css",
     "./resolver": {
       "types": "./dist/utils/resolver.d.ts",
       "import": "./dist/utils/resolver.mjs"
@@ -36,9 +37,7 @@
   "sideEffects": [
     "**/*.css",
     "dist/index.mjs",
-    "dist/style/index.mjs",
-    "dist/components/index.mjs",
-    "dist/components/*/index.mjs"
+    "dist/style/index.mjs"
   ],
   "scripts": {
     "dev": "vite build --watch",
@@ -65,6 +64,7 @@
     "vue": "^3.5.0"
   },
   "dependencies": {
+    "@smallbrother/directives": "workspace:*",
     "@smallbrother/utils": "workspace:*"
   },
   "devDependencies": {
