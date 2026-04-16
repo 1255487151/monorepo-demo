@@ -1,52 +1,42 @@
-# 项目概览
+# 指南总览
 
-## 仓库定位
+## 这组页面负责什么
 
-当前仓库是一个以 `packages/*` 为中心的前端 monorepo，围绕以下三个发布库组织：
+这一组页面只回答“怎么接入当前项目的发布库”，不承担完整 API 说明。
 
-- `@smallbrother/components`
-- `@smallbrother/directives`
-- `@smallbrother/utils`
+- `components`：讲全局注册、按需注册、样式引入、resolver 接入
+- `directives`：讲插件注册、单独注册和使用边界
+- `utils`：讲导入方式和适用边界
+- `learn-config`：单独负责工具链配置学习，不放在指南里展开
 
-文档站只把这三个发布库作为“库文档”节点。`packages/playground` 不作为发布库，也不出现在库文档导航中。
+## 当前仓库的发布库
 
-## 目录结构
-
-```txt
-packages/
-  components/    Vue 3 组件库，基于 Element Plus
-  directives/    Vue 3 指令库
-  utils/         通用工具函数库
-docs/
-  packages/      发布库文档
-  learn-config/  配置学习文档
-  specs/         规范要求文档
-```
+| 包名                       | 角色                            | 建议入口                             |
+| -------------------------- | ------------------------------- | ------------------------------------ |
+| `@smallbrother/components` | 基于 Element Plus 的 Vue 组件库 | [Components 接入](/guide/components) |
+| `@smallbrother/directives` | Vue 指令库                      | [Directives 接入](/guide/directives) |
+| `@smallbrother/utils`      | 通用工具函数库                  | [Utils 接入](/guide/utils)           |
+| `learn-config`             | 配置学习专区                    | [配置学习](/learn-config/)           |
 
 ## 依赖关系
 
 ```txt
 @smallbrother/components
-  ├─ 依赖 @smallbrother/directives
-  └─ 依赖 @smallbrother/utils
+  ├─ peerDependencies: vue, element-plus
+  ├─ dependencies: @smallbrother/directives
+  └─ dependencies: @smallbrother/utils
 
 @smallbrother/directives
-  └─ 依赖 vue
+  └─ peerDependencies: vue
 
 @smallbrother/utils
   └─ 无内部包依赖
 ```
 
-## 文档分组规则
+## 推荐阅读路径
 
-- “库文档”只承接发布库，一库一页。
-- “配置学习”只承接工具链和仓库配置的学习型内容。
-- “规范要求”只承接规则、要求、验收、迁移类内容。
-
-## 建议阅读顺序
-
-| 你当前的目标                | 建议入口                   |
-| --------------------------- | -------------------------- |
-| 了解包能力和导出入口        | [库文档](/packages/)       |
-| 理解 lint / ts / build 配置 | [配置学习](/learn-config/) |
-| 理解实现约束和评审边界      | [规范要求](/specs/)        |
+1. 先看 [快速开始](/guide/quick-start) 确认安装和阅读顺序。
+2. 接入组件时看 [Components 接入](/guide/components)。
+3. 单独接入指令时看 [Directives 接入](/guide/directives)。
+4. 只用工具函数时看 [Utils 接入](/guide/utils)。
+5. 需要理解配置项时进入 [learn-config](/learn-config/)。

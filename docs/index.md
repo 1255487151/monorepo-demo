@@ -3,31 +3,32 @@ layout: home
 
 hero:
   name: SmallBrother Docs
-  text: 面向当前 Monorepo 的 VitePress 文档站
-  tagline: 按发布库、配置学习与规范要求组织，兼顾查阅效率与后续维护约束。
+  text: 面向当前 Monorepo 的使用文档与配置学习站点
+  tagline: 首页负责导读，指南负责接入，组件/指令/utils 负责能力文档，learn-config 负责配置项学习。
   actions:
     - theme: brand
-      text: 进入入门
+      text: 进入指南
       link: /guide/
     - theme: alt
-      text: 查看库文档
-      link: /packages/
+      text: 查看组件
+      link: /packages/components/
 
 features:
-  - title: 库文档优先
-    details: 仅围绕当前三个发布库组织页面，每个库独立成页，不把规范和配置解释混入 API 文档。
-  - title: 配置学习集中
-    details: ESLint、Git、TSConfig、Vite Config 统一收纳到学习节点，便于理解仓库工具链的作用与边界。
-  - title: 规范要求单列
-    details: 类似 XlgTable 实现规范的约束型文档放到独立节点，避免和教程、包文档互相污染。
+  - title: 指南负责接入
+    details: 先在指南里看全局注册、按需注册、样式引入、resolver 和模块边界，再决定进入哪一类能力文档。
+  - title: 能力文档按模块拆页
+    details: Components、Directives、Utils 都按“索引页 + 单能力页”组织，页面直接给出可复制示例和 API 信息。
+  - title: 配置学习单独成线
+    details: ESLint、Git、TSConfig、Vite Config 只讲当前项目真正使用的关键配置项，不写成组件库式文档。
 ---
 
-## 文档结构
+## 你可以从这里开始
 
-- [入门](/guide/)：快速理解仓库定位、发布包边界和推荐阅读路径。
-- [库文档](/packages/)：面向 `@smallbrother/components`、`@smallbrother/directives`、`@smallbrother/utils`。
-- [配置学习](/learn-config/)：面向 ESLint、Git、TSConfig、Vite Config 的学习型文档。
-- [规范要求](/specs/)：面向实现规则、验收标准和迁移原则。
+- [指南](/guide/)：先看接入方式、依赖关系、样式策略和推荐阅读路径。
+- [组件](/packages/components/)：查看 `XlgSelect`、`XlgTable` 的用法、属性、事件和实例方法。
+- [指令](/packages/directives/)：查看 `table-auto-height` 的注册方式、绑定值和限制条件。
+- [utils](/packages/utils/)：查看 `add`、`isEmpty`、`deepClone`、`debounce`、`throttle`。
+- [learn-config](/learn-config/)：理解当前仓库真正使用的 ESLint、Git、TSConfig、Vite Config 关键配置项。
 
 ## 当前仓库事实
 
@@ -41,7 +42,8 @@ features:
 
 ## 推荐阅读路径
 
-1. 先看 [入门](/guide/) 了解 monorepo 边界和库之间的依赖关系。
-2. 再进入 [库文档](/packages/) 按发布库定位能力与导出入口。
-3. 需要理解工具链时进入 [配置学习](/learn-config/)。
-4. 做约束收口或评审时进入 [规范要求](/specs/)。
+1. 先看 [指南](/guide/) 理解整体接入方式。
+2. 需要接组件时进入 [组件](/packages/components/)。
+3. 需要接指令时进入 [指令](/packages/directives/)。
+4. 需要接工具函数时进入 [utils](/packages/utils/)。
+5. 需要理解工具链时进入 [learn-config](/learn-config/)。
