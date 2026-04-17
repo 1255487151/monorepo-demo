@@ -26,10 +26,12 @@
 | TSConfig    | TypeScript 编译、模块、路径别名、严格模式和输出边界   | [TSConfig](/learn-config/tsconfig/)       |
 | Vite Config | Vite shared options、plugins、resolve、build 和库模式 | [Vite Config](/learn-config/vite-config/) |
 | Git         | 常用命令、hooks、提交约束、远程和发布流程             | [Git](/learn-config/git/)                 |
+| Terminal    | mac 终端基础命令、mac 补充能力与 iTerm2 常用操作      | [Terminal](/learn-config/terminal)        |
 
 ## 推荐阅读顺序
 
 1. 先看 [TSConfig](/learn-config/tsconfig/)，理解类型系统和路径解析。
 2. 再看 [ESLint](/learn-config/eslint/)，理解静态检查的匹配范围和规则组织。
 3. 再看 [Vite Config](/learn-config/vite-config/)，理解库模式构建。
-4. 最后看 [Git](/learn-config/git/)，补齐协作与发布流程。
+4. 再看 [Git](/learn-config/git/)，补齐协作与发布流程。
+5. 最后看 [Terminal](/learn-config/terminal)，熟悉本地终端和 iTerm2 常用操作。

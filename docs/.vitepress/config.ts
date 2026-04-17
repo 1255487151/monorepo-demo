@@ -132,7 +132,8 @@ export default defineConfig({
             { text: "ESLint", link: "/learn-config/eslint/" },
             { text: "TSConfig", link: "/learn-config/tsconfig/" },
             { text: "Vite Config", link: "/learn-config/vite-config/" },
-            { text: "Git", link: "/learn-config/git/" }
+            { text: "Git", link: "/learn-config/git/" },
+            { text: "Terminal", link: "/learn-config/terminal" }
           ]
         }
       ]
